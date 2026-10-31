@@ -1,0 +1,274 @@
+{
+  "schema": "effect-tracer-bench-oracle/1",
+  "env": {
+    "date": "2026-10-31T05:09:10Z",
+    "kernel": "6.12.76-linuxkit",
+    "machine": "aarch64",
+    "os": "Debian GNU/Linux 12 (bookworm)",
+    "cpus": 10,
+    "memTotalMiB": 7936,
+    "inDockerContainer": true,
+    "python": "3.11.2",
+    "tracer": "effect-tracer 0.1.0",
+    "tracerBuild": "release",
+    "hyperfine": "hyperfine 1.15.0",
+    "hostNote": ""
+  },
+  "oracle": "bpftrace on syscall and sched tracepoints, filtered to the run's cgroup (script in bench/oracle.py)",
+  "workload": "W2 toy agent",
+  "mode": "full",
+  "runs": 10,
+  "runsAgreeing": 10,
+  "rows": [
+    {
+      "run": 0,
+      "agentExit": 0,
+      "oracle": {
+        "mkdir": 1,
+        "sendto.addr": 10,
+        "fork": 20,
+        "copy_file_range": 20,
+        "exit": 21,
+        "exec": 21,
+        "connect": 50,
+        "open.write": 201
+      },
+      "ledger": {
+        "exec": 21,
+        "mkdir": 1,
+        "open.write": 201,
+        "fork": 20,
+        "exit": 21,
+        "copy_file_range": 20,
+        "connect": 50,
+        "sendto.addr": 10
+      },
+      "differences": {}
+    },
+    {
+      "run": 1,
+      "agentExit": 0,
+      "oracle": {
+        "mkdir": 1,
+        "sendto.addr": 10,
+        "copy_file_range": 20,
+        "fork": 20,
+        "exit": 21,
+        "exec": 21,
+        "connect": 50,
+        "open.write": 201
+      },
+      "ledger": {
+        "exec": 21,
+        "mkdir": 1,
+        "open.write": 201,
+        "fork": 20,
+        "exit": 21,
+        "copy_file_range": 20,
+        "connect": 50,
+        "sendto.addr": 10
+      },
+      "differences": {}
+    },
+    {
+      "run": 2,
+      "agentExit": 0,
+      "oracle": {
+        "mkdir": 1,
+        "sendto.addr": 10,
+        "copy_file_range": 20,
+        "fork": 20,
+        "exit": 21,
+        "exec": 21,
+        "connect": 50,
+        "open.write": 201
+      },
+      "ledger": {
+        "exec": 21,
+        "mkdir": 1,
+        "open.write": 201,
+        "fork": 20,
+        "exit": 21,
+        "copy_file_range": 20,
+        "connect": 50,
+        "sendto.addr": 10
+      },
+      "differences": {}
+    },
+    {
+      "run": 3,
+      "agentExit": 0,
+      "oracle": {
+        "mkdir": 1,
+        "sendto.addr": 10,
+        "copy_file_range": 20,
+        "fork": 20,
+        "exec": 21,
+        "exit": 21,
+        "connect": 50,
+        "open.write": 201
+      },
+      "ledger": {
+        "exec": 21,
+        "mkdir": 1,
+        "open.write": 201,
+        "fork": 20,
+        "exit": 21,
+        "copy_file_range": 20,
+        "connect": 50,
+        "sendto.addr": 10
+      },
+      "differences": {}
+    },
+    {
+      "run": 4,
+      "agentExit": 0,
+      "oracle": {
+        "mkdir": 1,
+        "sendto.addr": 10,
+        "copy_file_range": 20,
+        "fork": 20,
+        "exec": 21,
+        "exit": 21,
+        "connect": 50,
+        "open.write": 201
+      },
+      "ledger": {
+        "exec": 21,
+        "mkdir": 1,
+        "open.write": 201,
+        "fork": 20,
+        "exit": 21,
+        "copy_file_range": 20,
+        "connect": 50,
+        "sendto.addr": 10
+      },
+      "differences": {}
+    },
+    {
+      "run": 5,
+      "agentExit": 0,
+      "oracle": {
+        "mkdir": 1,
+        "sendto.addr": 10,
+        "copy_file_range": 20,
+        "fork": 20,
+        "exit": 21,
+        "exec": 21,
+        "connect": 50,
+        "open.write": 201
+      },
+      "ledger": {
+        "exec": 21,
+        "mkdir": 1,
+        "open.write": 201,
+        "fork": 20,
+        "exit": 21,
+        "copy_file_range": 20,
+        "connect": 50,
+        "sendto.addr": 10
+      },
+      "differences": {}
+    },
+    {
+      "run": 6,
+      "agentExit": 0,
+      "oracle": {
+        "mkdir": 1,
+        "sendto.addr": 10,
+        "fork": 20,
+        "copy_file_range": 20,
+        "exit": 21,
+        "exec": 21,
+        "connect": 50,
+        "open.write": 201
+      },
+      "ledger": {
+        "exec": 21,
+        "mkdir": 1,
+        "open.write": 201,
+        "fork": 20,
+        "exit": 21,
+        "copy_file_range": 20,
+        "connect": 50,
+        "sendto.addr": 10
+      },
+      "differences": {}
+    },
+    {
+      "run": 7,
+      "agentExit": 0,
+      "oracle": {
+        "mkdir": 1,
+        "sendto.addr": 10,
+        "fork": 20,
+        "copy_file_range": 20,
+        "exit": 21,
+        "exec": 21,
+        "connect": 50,
+        "open.write": 201
+      },
+      "ledger": {
+        "exec": 21,
+        "mkdir": 1,
+        "open.write": 201,
+        "fork": 20,
+        "exit": 21,
+        "copy_file_range": 20,
+        "connect": 50,
+        "sendto.addr": 10
+      },
+      "differences": {}
+    },
+    {
+      "run": 8,
+      "agentExit": 0,
+      "oracle": {
+        "mkdir": 1,
+        "sendto.addr": 10,
+        "copy_file_range": 20,
+        "fork": 20,
+        "exec": 21,
+        "exit": 21,
+        "connect": 50,
+        "open.write": 201
+      },
+      "ledger": {
+        "exec": 21,
+        "mkdir": 1,
+        "open.write": 201,
+        "fork": 20,
+        "exit": 21,
+        "copy_file_range": 20,
+        "connect": 50,
+        "sendto.addr": 10
+      },
+      "differences": {}
+    },
+    {
+      "run": 9,
+      "agentExit": 0,
+      "oracle": {
+        "mkdir": 1,
+        "sendto.addr": 10,
+        "copy_file_range": 20,
+        "fork": 20,
+        "exit": 21,
+        "exec": 21,
+        "connect": 50,
+        "open.write": 201
+      },
+      "ledger": {
+        "exec": 21,
+        "mkdir": 1,
+        "open.write": 201,
+        "fork": 20,
+        "exit": 21,
+        "copy_file_range": 20,
+        "connect": 50,
+        "sendto.addr": 10
+      },
+      "differences": {}
+    }
+  ]
+}

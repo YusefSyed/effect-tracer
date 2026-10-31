@@ -13,6 +13,7 @@ sys.path.insert(0, HERE)
 import envinfo  # noqa: E402
 
 WORKLOADS = {
+    "W0": "/bin/true: the fixed cost of starting the tracer (for --mode ebpf, loading and attaching the BPF programs)",
     "W1": "dd if=/dev/zero of=/dev/null bs=1 count=500k (about 1,024,000 syscalls; the ptrace worst case)",
     "W2": "toy agent: 200 file writes, 50 local HTTP calls, 20 subprocesses, 10 DNS lookups",
     "W3": "offline pip install of requests (--no-index --force-reinstall --no-deps) into a venv",

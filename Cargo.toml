@@ -23,6 +23,12 @@ rand = "0.8"
 
 [target.'cfg(target_os = "linux")'.dependencies]
 nix = { version = "0.29", features = ["ptrace", "process", "signal", "uio", "fs", "socket", "resource"] }
+aya = { version = "0.13", optional = true }
+
+[features]
+# The eBPF backend (--mode ebpf). Building it needs clang and bpftool and
+# reads this machine's /sys/kernel/btf/vmlinux (see build.rs).
+ebpf = ["dep:aya"]
 
 [dev-dependencies]
 sha2 = "0.10"

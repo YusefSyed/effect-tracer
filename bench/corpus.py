@@ -142,7 +142,7 @@ def prepare(out, root):
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--mode", default="full", choices=["full", "seccomp"])
+    ap.add_argument("--mode", default="full", choices=["full", "seccomp", "ebpf"])
     ap.add_argument("--tracer", default=os.path.join(os.path.dirname(HERE), "target", "release", "effect-tracer"))
     ap.add_argument("--out")
     ap.add_argument("--keep", action="store_true")

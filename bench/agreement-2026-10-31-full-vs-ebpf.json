@@ -1,0 +1,267 @@
+{
+  "schema": "effect-tracer-bench-agreement/1",
+  "env": {
+    "date": "2026-10-31T05:55:41Z",
+    "kernel": "6.12.76-linuxkit",
+    "machine": "aarch64",
+    "os": "Debian GNU/Linux 12 (bookworm)",
+    "cpus": 10,
+    "memTotalMiB": 7936,
+    "inDockerContainer": true,
+    "python": "3.11.2",
+    "tracer": "effect-tracer 0.1.0",
+    "tracerBuild": "release",
+    "hyperfine": "hyperfine 1.15.0",
+    "hostNote": ""
+  },
+  "workload": "W2 toy agent (bench/toy_agent.py)",
+  "modes": [
+    "full",
+    "ebpf"
+  ],
+  "compared": "multiset of (kind, name, outcome) per run, run.start/run.end left out",
+  "runs": 30,
+  "runsIdentical": 30,
+  "rows": [
+    {
+      "run": 0,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 1,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 2,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 3,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 4,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 5,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 6,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 7,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 8,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 9,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 10,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 11,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 12,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 13,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 14,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 15,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 16,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 17,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 18,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 19,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 20,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 21,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 22,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 23,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 24,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 25,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 26,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 27,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 28,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    },
+    {
+      "run": 29,
+      "eventsA": 354,
+      "eventsB": 354,
+      "matched": 354,
+      "onlyA": [],
+      "onlyB": []
+    }
+  ]
+}

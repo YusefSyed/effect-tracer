@@ -1,0 +1,1111 @@
+{
+  "schema": "effect-tracer-bench-clean-runs/1",
+  "env": {
+    "date": "2026-10-31T05:56:38Z",
+    "kernel": "6.12.76-linuxkit",
+    "machine": "aarch64",
+    "os": "Debian GNU/Linux 12 (bookworm)",
+    "cpus": 10,
+    "memTotalMiB": 7936,
+    "inDockerContainer": true,
+    "python": "3.11.2",
+    "tracer": "effect-tracer 0.1.0",
+    "tracerBuild": "release",
+    "hyperfine": "hyperfine 1.15.0",
+    "hostNote": ""
+  },
+  "workload": "W2 toy agent (bench/toy_agent.py): 200 file writes, 50 local HTTP calls, 20 subprocesses, 10 DNS lookups to a local stub",
+  "manifest": "roots=[work root], hosts=[http stub, dns stub], dnsSuffixes=[.toy.test], exes=[python3, sh, cat]",
+  "ignoreList": "bench/ignore.json",
+  "mode": "ebpf",
+  "runs": 30,
+  "runsWithUndeclaredEvents": 0,
+  "totalUndeclaredEvents": 0,
+  "totalIgnoredEvents": 0,
+  "runsVerified": 30,
+  "runsCoverageComplete": 30,
+  "agentFailures": 0,
+  "wallMedianS": 1.9011,
+  "perRun": [
+    {
+      "mode": "ebpf",
+      "wallS": 1.8966,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 144,
+        "wallMs": 85
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.9067,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 132,
+        "wallMs": 95
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.9015,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 131,
+        "wallMs": 85
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.9077,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 125,
+        "wallMs": 67
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.8767,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 129,
+        "wallMs": 68
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.8762,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 127,
+        "wallMs": 78
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.8835,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 122,
+        "wallMs": 88
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.8886,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 124,
+        "wallMs": 72
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.9155,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 129,
+        "wallMs": 96
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.9145,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 126,
+        "wallMs": 107
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.8865,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 122,
+        "wallMs": 70
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.8692,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 125,
+        "wallMs": 75
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.9216,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 132,
+        "wallMs": 117
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.9082,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 125,
+        "wallMs": 93
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.9516,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 135,
+        "wallMs": 111
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.8984,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 131,
+        "wallMs": 87
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.883,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 127,
+        "wallMs": 75
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.8729,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 119,
+        "wallMs": 67
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.8753,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 128,
+        "wallMs": 67
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.9063,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 130,
+        "wallMs": 82
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.9539,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 185,
+        "wallMs": 90
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.9248,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 131,
+        "wallMs": 95
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.8792,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 126,
+        "wallMs": 78
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.9104,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 124,
+        "wallMs": 100
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.8763,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 121,
+        "wallMs": 80
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.9049,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 120,
+        "wallMs": 89
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.8596,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 116,
+        "wallMs": 62
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.9011,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 124,
+        "wallMs": 102
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.9299,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 131,
+        "wallMs": 112
+      }
+    },
+    {
+      "mode": "ebpf",
+      "wallS": 1.8957,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "pendingOverwrites": 0,
+        "processes": 21,
+        "ringbufDrops": 0,
+        "tracerCpuMs": 127,
+        "wallMs": 93
+      }
+    }
+  ]
+}

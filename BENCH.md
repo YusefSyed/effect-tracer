@@ -204,3 +204,44 @@ plan's 50 percent line. Pinned, it costs 25 percent against an untraced
 run on the same CPU, and 15 percent against the default untraced run. For
 serial workloads, v0.1 lands under the line with `--pin-cpu` and over it
 without. That is the case the planned eBPF backend is for.
+
+### M3: the eBPF backend (`--mode ebpf`, built with `--features ebpf`)
+
+Same container, release build, run as root. Clean runs, corpus and
+agreement are light and were run while another job held the machine;
+they are counts, not timings.
+
+- Agreement (`bench/agreement.py --a full --b ebpf --runs 30` ->
+  `bench/agreement-2026-10-31-full-vs-ebpf.json`): each run traces the toy
+  agent under both backends with identical paths and compares the
+  multisets of (kind, name, outcome) without run.start/run.end. 30/30 runs
+  identical, 354 events each.
+- Oracle (`bench/oracle.py --mode ebpf|full --runs 10` ->
+  `bench/oracle-2026-10-31-{ebpf,full}.json`): bpftrace 0.17 on
+  `tracepoint:syscalls:*` and `sched:*`, filtered on a fresh cgroup the
+  agent joins, counts successful write-intent opens, mkdirat, unlinkat,
+  renames, connects, sendto with a destination, copy_file_range, execs,
+  forks and exits in the same run as the tracer. 10/10 runs agree in both
+  modes: open.write 201, connect 50, exec 21, exit 21, fork 20,
+  copy_file_range 20, sendto 10, mkdir 1. Two by-construction exclusions,
+  both in the wrapper before it joins the cgroup: its exec and its write
+  to cgroup.procs.
+- Corpus (`bench/corpus-2026-10-31-ebpf.json`): 19/20 + 6/6 (x25 and x26, the non-dumpable cases, are ordinary events here: the kernel side does not care). c04 fails with
+  EXDEV in this container in every mode, also with `TMPDIR=/dev/shm`. ptrace
+  records the failed `linkat`; the LSM hook is never reached.
+- Clean runs (`bench/clean-runs-2026-10-31-ebpf.json`): 30 runs, 0
+  undeclared, 0 ignored, 30/30 verified with complete coverage.
+- Fixed cost: `effect-tracer run --mode ebpf -- /bin/true` took 1.80-1.82 s
+  wall and 0.12-0.17 s CPU, three runs. The overhead harness for this mode is
+  `bench/overhead_ebpf.sh`; its W0 row (/bin/true) measures the same thing.
+- Overhead (`bench/overhead_ebpf.sh 10 2` at 05:40Z, VM load 0.73,
+  `bench/overhead-ebpf-2026-10-31T054013Z.json`). Medians: W0 none 0.0002,
+  ebpf 1.8102; W1 0.2438 / 2.1261; W2 0.0662 / 1.8772; W3 0.2697 / 2.0822;
+  W4 0.1940 / 2.0256. Run cost = ebpf median minus the W0 ebpf median, over
+  the untraced median: W1 1.30x, W2 1.01x, W3 1.01x, W4 1.11x. W1's extra
+  0.072 s over 1,024,000 syscalls is about 70 ns per syscall for the two raw
+  tracepoint programs.
+- An earlier run of the same harness at 05:36Z (not published, not cited)
+  used a binary whose loop found the root's exit only at a 50 ms poll
+  timeout. That added an uneven tail to every run and made W2 minus W0 come
+  out smaller than untraced W2. The loop now also polls a pidfd of the root.

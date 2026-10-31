@@ -1,0 +1,242 @@
+{
+  "schema": "effect-tracer-bench-overhead/1",
+  "env": {
+    "date": "2026-10-31T05:42:22Z",
+    "kernel": "6.12.76-linuxkit",
+    "machine": "aarch64",
+    "os": "Debian GNU/Linux 12 (bookworm)",
+    "cpus": 10,
+    "memTotalMiB": 7936,
+    "inDockerContainer": true,
+    "python": "3.11.2",
+    "tracer": "effect-tracer 0.1.0",
+    "tracerBuild": "release",
+    "hyperfine": "hyperfine 1.15.0",
+    "hostNote": ""
+  },
+  "hyperfine": {
+    "runs": 10,
+    "warmup": 2,
+    "shell": "none (-N)"
+  },
+  "modes": {
+    "none": "untraced",
+    "ptrace": "--mode full: a stop at every syscall entry and exit",
+    "ptrace+seccomp": "--mode seccomp: stops only at effect syscalls",
+    "<mode>@cpuN": "the same, with the tracer and the whole tree on CPU N (--pin-cpu N; taskset -c N for none)"
+  },
+  "pinCpu": null,
+  "workloads": {
+    "W0": {
+      "description": "/bin/true: the fixed cost of starting the tracer (for --mode ebpf, loading and attaching the BPF programs)",
+      "command": "none",
+      "modes": {
+        "none": {
+          "meanS": 0.0002560918,
+          "medianS": 0.0002446875,
+          "minS": 0.00020675,
+          "maxS": 0.00034087500000000003,
+          "p95S": 0.00034087500000000003,
+          "userS": 0.00016829999999999997,
+          "systemS": 4.29e-05,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "ratioMedian": 1.0,
+          "overheadPercentMedian": 0.0,
+          "ratioMedianSamePlacement": 1.0
+        },
+        "ebpf": {
+          "meanS": 1.8178026840000001,
+          "medianS": 1.8102057095000001,
+          "minS": 1.799730625,
+          "maxS": 1.9062890010000002,
+          "p95S": 1.9062890010000002,
+          "userS": 0.07177539999999999,
+          "systemS": 0.09040079999999999,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "lastRunStops": null,
+          "lastRunTracerCpuMs": 119,
+          "lastRunEvents": 3,
+          "lastRunCoverage": "complete",
+          "ratioMedian": 7398.031,
+          "overheadPercentMedian": 739703.1,
+          "ratioMedianSamePlacement": 7398.031
+        }
+      }
+    },
+    "W1": {
+      "description": "dd if=/dev/zero of=/dev/null bs=1 count=500k (about 1,024,000 syscalls; the ptrace worst case)",
+      "command": "none",
+      "modes": {
+        "none": {
+          "meanS": 0.2440892168,
+          "medianS": 0.24377960400000004,
+          "minS": 0.242520125,
+          "maxS": 0.248143791,
+          "p95S": 0.248143791,
+          "userS": 0.07810600000000001,
+          "systemS": 0.16584300000000002,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "ratioMedian": 1.0,
+          "overheadPercentMedian": 0.0,
+          "ratioMedianSamePlacement": 1.0
+        },
+        "ebpf": {
+          "meanS": 2.1326772175000004,
+          "medianS": 2.1261198345,
+          "minS": 2.112034001,
+          "maxS": 2.19443596,
+          "p95S": 2.19443596,
+          "userS": 0.1606579,
+          "systemS": 0.3131759,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "lastRunStops": null,
+          "lastRunTracerCpuMs": 121,
+          "lastRunEvents": 4,
+          "lastRunCoverage": "complete",
+          "ratioMedian": 8.721,
+          "overheadPercentMedian": 772.1,
+          "ratioMedianSamePlacement": 8.721
+        }
+      }
+    },
+    "W2": {
+      "description": "toy agent: 200 file writes, 50 local HTTP calls, 20 subprocesses, 10 DNS lookups",
+      "command": "none",
+      "modes": {
+        "none": {
+          "meanS": 0.0655666667,
+          "medianS": 0.06619235400000001,
+          "minS": 0.061094375000000006,
+          "maxS": 0.06872608300000001,
+          "p95S": 0.06872608300000001,
+          "userS": 0.042124199999999994,
+          "systemS": 0.014675299999999999,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "ratioMedian": 1.0,
+          "overheadPercentMedian": 0.0,
+          "ratioMedianSamePlacement": 1.0
+        },
+        "ebpf": {
+          "meanS": 1.8832063092000002,
+          "medianS": 1.8771648135,
+          "minS": 1.870339001,
+          "maxS": 1.917176167,
+          "p95S": 1.917176167,
+          "userS": 0.1153052,
+          "systemS": 0.10522489999999998,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "lastRunStops": null,
+          "lastRunTracerCpuMs": 131,
+          "lastRunEvents": 354,
+          "lastRunCoverage": "complete",
+          "ratioMedian": 28.359,
+          "overheadPercentMedian": 2735.9,
+          "ratioMedianSamePlacement": 28.359
+        }
+      }
+    },
+    "W3": {
+      "description": "offline pip install of requests (--no-index --force-reinstall --no-deps) into a venv",
+      "command": "none",
+      "modes": {
+        "none": {
+          "meanS": 0.2691668211,
+          "medianS": 0.2696983545,
+          "minS": 0.264796584,
+          "maxS": 0.274723875,
+          "p95S": 0.274723875,
+          "userS": 0.23386040000000002,
+          "systemS": 0.031844399999999995,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "ratioMedian": 1.0,
+          "overheadPercentMedian": 0.0,
+          "ratioMedianSamePlacement": 1.0
+        },
+        "ebpf": {
+          "meanS": 2.0856633595000007,
+          "medianS": 2.0822386465,
+          "minS": 2.07393571,
+          "maxS": 2.103138001,
+          "p95S": 2.103138001,
+          "userS": 0.30557449999999997,
+          "systemS": 0.11998780000000002,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "lastRunStops": null,
+          "lastRunTracerCpuMs": 119,
+          "lastRunEvents": 155,
+          "lastRunCoverage": "complete",
+          "ratioMedian": 7.721,
+          "overheadPercentMedian": 672.1,
+          "ratioMedianSamePlacement": 7.721
+        }
+      }
+    },
+    "W4": {
+      "description": "pytest, 200 small tests (bench/w4_tests/test_w4.py)",
+      "command": "none",
+      "modes": {
+        "none": {
+          "meanS": 0.1941907791,
+          "medianS": 0.194048167,
+          "minS": 0.191938708,
+          "maxS": 0.19729333300000002,
+          "p95S": 0.19729333300000002,
+          "userS": 0.1712914,
+          "systemS": 0.0217786,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "ratioMedian": 1.0,
+          "overheadPercentMedian": 0.0,
+          "ratioMedianSamePlacement": 1.0
+        },
+        "ebpf": {
+          "meanS": 2.0333702345,
+          "medianS": 2.02557696,
+          "minS": 2.014380293,
+          "maxS": 2.090550001,
+          "p95S": 2.090550001,
+          "userS": 0.26073810000000003,
+          "systemS": 0.12378439999999999,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "lastRunStops": null,
+          "lastRunTracerCpuMs": 131,
+          "lastRunEvents": 1583,
+          "lastRunCoverage": "complete",
+          "ratioMedian": 10.439,
+          "overheadPercentMedian": 943.9,
+          "ratioMedianSamePlacement": 10.439
+        }
+      }
+    }
+  },
+  "markdownTable": "| workload | mode | median s | p95 s | x untraced | x untraced, same CPU | stops | tracer CPU ms |\n|---|---|---|---|---|---|---|---|\n| W0 | none | 0.0002 | 0.0003 | 1.0 | 1.0 |  |  |\n| W0 | ebpf | 1.8102 | 1.9063 | 7398.031 | 7398.031 |  | 119 |\n| W1 | none | 0.2438 | 0.2481 | 1.0 | 1.0 |  |  |\n| W1 | ebpf | 2.1261 | 2.1944 | 8.721 | 8.721 |  | 121 |\n| W2 | none | 0.0662 | 0.0687 | 1.0 | 1.0 |  |  |\n| W2 | ebpf | 1.8772 | 1.9172 | 28.359 | 28.359 |  | 131 |\n| W3 | none | 0.2697 | 0.2747 | 1.0 | 1.0 |  |  |\n| W3 | ebpf | 2.0822 | 2.1031 | 7.721 | 7.721 |  | 119 |\n| W4 | none | 0.1940 | 0.1973 | 1.0 | 1.0 |  |  |\n| W4 | ebpf | 2.0256 | 2.0906 | 10.439 | 10.439 |  | 131 |"
+}

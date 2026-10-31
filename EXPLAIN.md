@@ -392,3 +392,70 @@ future work, and the coverage verdict says so.
 language can rebuild the exact bytes from the parsed object, and so a human
 can read the ledger with `cat`. The hash commits to bytes; canonical form
 is what makes bytes reproducible.
+
+## 13. The eBPF backend (`--mode ebpf`) [`bpf/effects.bpf.c`, `src/sys/ebpf.rs`]
+
+Same ledger, different eyes. Nothing stops: BPF programs run inside the
+kernel at the points where it makes its own decisions, and push records
+into a ring buffer the tracer reads.
+
+**Where it looks.** LSM hooks for the objects themselves: `file_open` (the
+file actually opened, with write intent from `f_mode`), `path_unlink`,
+`path_rename`, `path_mkdir`, `path_link`, `path_symlink`, `path_truncate`,
+`path_chmod`, `file_truncate`, `mmap_file`, `socket_connect`, `socket_bind`,
+`socket_sendmsg`, `bprm_committed_creds`. Scheduler tracepoints for
+lineage: `sched_process_fork`, `sched_process_exec`, `sched_process_exit`.
+`raw_tp/sys_enter` for the four calls with no hook of their own
+(`sendfile`, `copy_file_range`, `splice`, `memfd_create`), and
+`raw_tp/sys_exit` for outcomes.
+
+**Why LSM hooks and not syscall tracepoints.** A syscall tracepoint sees
+the arguments, the same user memory ptrace reads, with the same TOCTOU
+window. An LSM hook runs on the kernel's resolved object: `file_open` gets
+the `struct file`, and `bpf_d_path` turns its `f_path` into the path the
+kernel used. A racing thread cannot change that. Paths come from
+`bpf_d_path` in the sleepable hooks (`lsm.s/`) and from a bounded dentry
+walk that crosses mounts in the non-sleepable ones (`walk_path`).
+
+**Outcome.** A hook runs before the operation finishes, so it cannot know
+whether the call will succeed. Each hook parks its event in a per-thread
+map; the thread's next `sys_exit` copies the return value in and sends it.
+Two traps found while building it:
+
+- overlayfs opens the backing file inside the same `openat`, so
+  `file_open` fires twice; the first (the caller's path) wins. The same
+  rule stops `path_truncate` and `file_truncate` from displacing the open
+  of an `O_TRUNC`.
+- the io_uring denial skips `sys_enter`, because the kernel runs seccomp
+  before the enter tracepoint and an ERRNO verdict returns early, but
+  `sys_exit` still fires. So the attempt is recorded there: EPERM plus an
+  io_uring syscall number from `pt_regs`. Unlike seccomp mode, eBPF mode
+  logs it.
+
+**Following the tree.** No cgroup: a hash map of thread-group ids that
+`sched_process_fork` extends whenever a traced process forks, the way
+ptrace's auto-attach does. The tracepoint fires before the child runs, so
+nothing escapes between fork and the first event. The root is adopted at
+its fork: the tracer renames itself to a random token for that one fork,
+and the fork program recognises the token in the parent. That avoids
+needing the tracer's pid as the kernel sees it, which inside a container
+is a different number. The same reason makes every event carry pids
+translated into the tracer's pid namespace (`pid->numbers[level].nr`,
+what `task_pid_nr_ns` does).
+
+**Costs.** No stops, so the per-event cost is a ring-buffer write. The
+fixed cost is loading and attaching 23 programs, about 1.8 s here, mostly
+the kernel installing trampolines, not CPU. After that, the toy agent and
+the pip install run within 1 percent of untraced and pytest within 11
+percent. The one loss is a workload of nothing but syscalls: the two raw
+tracepoints on sys_enter and sys_exit cost about 70 ns per syscall, so W1
+is 1.30x, where seccomp mode, which never stops on `read`/`write`, is 1.0x.
+The price is privilege: root (CAP_BPF and CAP_SYS_ADMIN for LSM programs)
+and a kernel with `bpf` in its active LSM list.
+
+**How it is checked.** Run the toy agent under ptrace and under eBPF with
+identical paths: the (kind, name, outcome) multisets match in 30 of 30
+runs (`bench/agreement-*.json`). Then bpftrace, which shares no code and
+watches a different layer (syscall tracepoints, filtered on a cgroup),
+counts the same effects in the same run: 10 of 10 runs agree for both
+backends (`bench/oracle-*.json`).

@@ -1,0 +1,539 @@
+{
+  "schema": "effect-tracer-bench-corpus/1",
+  "env": {
+    "date": "2026-10-31T05:54:24Z",
+    "kernel": "6.12.76-linuxkit",
+    "machine": "aarch64",
+    "os": "Debian GNU/Linux 12 (bookworm)",
+    "cpus": 10,
+    "memTotalMiB": 7936,
+    "inDockerContainer": true,
+    "python": "3.11.2",
+    "tracer": "effect-tracer 0.1.0",
+    "tracerBuild": "release",
+    "hyperfine": "hyperfine 1.15.0",
+    "hostNote": ""
+  },
+  "mode": "ebpf",
+  "corpus": "bench/bypass/cases.py (20 cases c01-c20, plus x21-x24 reported separately)",
+  "caught": 19,
+  "total": 20,
+  "extraCaught": 6,
+  "extraTotal": 6,
+  "allLedgersVerified": true,
+  "rows": [
+    {
+      "id": "c01",
+      "title": "subprocess shell redirect",
+      "expected": "file.write",
+      "caught": true,
+      "event": {
+        "seq": 5,
+        "kind": "file.write",
+        "name": "/tmp/et-corpus-3nclhx_s/undeclared/c01",
+        "outcome": "committed",
+        "comm": "sh",
+        "detail": {
+          "flags": [
+            "O_WRONLY",
+            "O_CREAT",
+            "O_TRUNC"
+          ],
+          "hook": "file_open"
+        }
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "case c01 done"
+    },
+    {
+      "id": "c02",
+      "title": "os.system redirect",
+      "expected": "file.write",
+      "caught": true,
+      "event": {
+        "seq": 5,
+        "kind": "file.write",
+        "name": "/tmp/et-corpus-3nclhx_s/undeclared/c02",
+        "outcome": "committed",
+        "comm": "sh",
+        "detail": {
+          "flags": [
+            "O_WRONLY",
+            "O_CREAT",
+            "O_TRUNC"
+          ],
+          "hook": "file_open"
+        }
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "case c02 done"
+    },
+    {
+      "id": "c03",
+      "title": "rename over an undeclared path",
+      "expected": "file.rename",
+      "caught": true,
+      "event": {
+        "seq": 4,
+        "kind": "file.rename",
+        "name": "/tmp/et-corpus-3nclhx_s/undeclared/c03",
+        "outcome": "committed",
+        "comm": "python3",
+        "detail": {
+          "from": "/tmp/et-corpus-3nclhx_s/root/.staging03"
+        }
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "case c03 done"
+    },
+    {
+      "id": "c04",
+      "title": "O_TMPFILE then linkat",
+      "expected": "file.link",
+      "caught": false,
+      "event": null,
+      "verify": 0,
+      "caseExit": 1,
+      "caseStdout": "",
+      "caseStderr": "Traceback (most recent call last):\n  File \"/work/bench/bypass/cases.py\", line 226, in <module>\n    CASES[sys.argv[1]]()\n  File \"/work/bench/bypass/cases.py\", line 48, in c04_tmpfile_linkat\n    os.link(f\"/proc/self/fd/{fd}\", os.path.join(OUT, \"c04\"))\nOSError: [Errno 18] Invalid cross-device link: '/proc/self/fd/3' -> '/tmp/et-corpus-3nclhx_s/undeclared/c04'\n"
+    },
+    {
+      "id": "c05",
+      "title": "shared writable mmap",
+      "expected": "file.map-write",
+      "caught": true,
+      "event": {
+        "seq": 4,
+        "kind": "file.map-write",
+        "name": "/tmp/et-corpus-3nclhx_s/undeclared/c05",
+        "outcome": "committed",
+        "comm": "python3",
+        "detail": null
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "case c05 done"
+    },
+    {
+      "id": "c06",
+      "title": "sendfile into a file",
+      "expected": "file.write",
+      "caught": true,
+      "event": {
+        "seq": 4,
+        "kind": "file.write",
+        "name": "/tmp/et-corpus-3nclhx_s/undeclared/c06",
+        "outcome": "committed",
+        "comm": "python3",
+        "detail": {
+          "via": "sendfile"
+        }
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "case c06 done"
+    },
+    {
+      "id": "c07",
+      "title": "/dev/shm write",
+      "expected": "file.write",
+      "caught": true,
+      "event": {
+        "seq": 3,
+        "kind": "file.write",
+        "name": "/dev/shm/et-c07",
+        "outcome": "committed",
+        "comm": "python3",
+        "detail": {
+          "flags": [
+            "O_WRONLY",
+            "O_CREAT",
+            "O_TRUNC"
+          ],
+          "hook": "file_open"
+        }
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "case c07 done"
+    },
+    {
+      "id": "c08",
+      "title": "raw UDP sendto",
+      "expected": "socket.send",
+      "caught": true,
+      "event": {
+        "seq": 3,
+        "kind": "socket.send",
+        "name": "udp:127.0.0.1:54168",
+        "outcome": "committed",
+        "comm": "python3",
+        "detail": {
+          "bytes": 4
+        }
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "case c08 done"
+    },
+    {
+      "id": "c09",
+      "title": "unix socket connect",
+      "expected": "socket.connect",
+      "caught": true,
+      "event": {
+        "seq": 3,
+        "kind": "socket.connect",
+        "name": "unix:/tmp/et-corpus-3nclhx_s/c09.sock",
+        "outcome": "committed",
+        "comm": "python3",
+        "detail": null
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "case c09 done"
+    },
+    {
+      "id": "c10",
+      "title": "io_uring_setup attempt",
+      "expected": "coverage.gap",
+      "caught": true,
+      "event": {
+        "seq": 3,
+        "kind": "coverage.gap",
+        "name": "io_uring_setup",
+        "outcome": "denied",
+        "comm": "python3",
+        "detail": {
+          "errno": "EPERM"
+        }
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "io_uring_setup=-1 errno=1\ncase c10 done"
+    },
+    {
+      "id": "c11",
+      "title": "copy_file_range",
+      "expected": "file.write",
+      "caught": true,
+      "event": {
+        "seq": 4,
+        "kind": "file.write",
+        "name": "/tmp/et-corpus-3nclhx_s/undeclared/c11",
+        "outcome": "failed",
+        "comm": "python3",
+        "detail": {
+          "errno": "EXDEV",
+          "via": "copy_file_range"
+        }
+      },
+      "verify": 0,
+      "caseExit": 1,
+      "caseStdout": "",
+      "caseStderr": "Traceback (most recent call last):\n  File \"/work/bench/bypass/cases.py\", line 226, in <module>\n    CASES[sys.argv[1]]()\n  File \"/work/bench/bypass/cases.py\", line 101, in c11_copy_file_range\n    os.copy_file_range(src, dst, 4096)\nOSError: [Errno 18] Invalid cross-device link\n"
+    },
+    {
+      "id": "c12",
+      "title": "write through a symlink out of the root",
+      "expected": "file.write",
+      "caught": true,
+      "event": {
+        "seq": 4,
+        "kind": "file.write",
+        "name": "/tmp/et-corpus-3nclhx_s/undeclared/c12",
+        "outcome": "committed",
+        "comm": "python3",
+        "detail": {
+          "flags": [
+            "O_WRONLY",
+            "O_CREAT",
+            "O_TRUNC"
+          ],
+          "hook": "file_open"
+        }
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "case c12 done"
+    },
+    {
+      "id": "c13",
+      "title": "hard link of an outside file into the root",
+      "expected": "file.link",
+      "caught": true,
+      "event": {
+        "seq": 3,
+        "kind": "file.link",
+        "name": "/tmp/et-corpus-3nclhx_s/root/c13",
+        "outcome": "committed",
+        "comm": "python3",
+        "detail": {
+          "from": "/tmp/et-corpus-3nclhx_s/undeclared/c13-src"
+        }
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "case c13 done"
+    },
+    {
+      "id": "c14",
+      "title": "truncate by path",
+      "expected": "file.write",
+      "caught": true,
+      "event": {
+        "seq": 3,
+        "kind": "file.write",
+        "name": "/tmp/et-corpus-3nclhx_s/undeclared/c14",
+        "outcome": "committed",
+        "comm": "python3",
+        "detail": {
+          "via": "truncate"
+        }
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "case c14 done"
+    },
+    {
+      "id": "c15",
+      "title": "chmod",
+      "expected": "file.meta",
+      "caught": true,
+      "event": {
+        "seq": 3,
+        "kind": "file.meta",
+        "name": "/tmp/et-corpus-3nclhx_s/undeclared/c15",
+        "outcome": "committed",
+        "comm": "python3",
+        "detail": {
+          "mode": "600"
+        }
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "case c15 done"
+    },
+    {
+      "id": "c16",
+      "title": "unlink",
+      "expected": "file.delete",
+      "caught": true,
+      "event": {
+        "seq": 3,
+        "kind": "file.delete",
+        "name": "/tmp/et-corpus-3nclhx_s/undeclared/c16",
+        "outcome": "committed",
+        "comm": "python3",
+        "detail": null
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "case c16 done"
+    },
+    {
+      "id": "c17",
+      "title": "mkdir",
+      "expected": "file.create",
+      "caught": true,
+      "event": {
+        "seq": 3,
+        "kind": "file.create",
+        "name": "/tmp/et-corpus-3nclhx_s/undeclared/c17",
+        "outcome": "committed",
+        "comm": "python3",
+        "detail": {
+          "dir": true,
+          "mode": "777"
+        }
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "case c17 done"
+    },
+    {
+      "id": "c18",
+      "title": "DNS query for an undeclared name",
+      "expected": "dns.query",
+      "caught": true,
+      "event": {
+        "seq": 4,
+        "kind": "dns.query",
+        "name": "exfil.undeclared.test",
+        "outcome": "committed",
+        "comm": "python3",
+        "detail": {
+          "qtype": "A",
+          "server": "udp:127.0.0.1:40945"
+        }
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "case c18 done"
+    },
+    {
+      "id": "c19",
+      "title": "TCP connect to an undeclared port",
+      "expected": "socket.connect",
+      "caught": true,
+      "event": {
+        "seq": 3,
+        "kind": "socket.connect",
+        "name": "tcp:127.0.0.1:57187",
+        "outcome": "committed",
+        "comm": "python3",
+        "detail": {
+          "errno": "EINPROGRESS"
+        }
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "case c19 done"
+    },
+    {
+      "id": "c20",
+      "title": "exec of an undeclared binary",
+      "expected": "process.exec",
+      "caught": true,
+      "event": {
+        "seq": 4,
+        "kind": "process.exec",
+        "name": "/usr/bin/env",
+        "outcome": "committed",
+        "comm": "env",
+        "detail": {
+          "argc": 2,
+          "argvSha256": "1db8844b541f36a05728a348793fa446f8c4512c9e114bbec7d13c03f141ddf9"
+        }
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "case c20 done"
+    },
+    {
+      "id": "x21",
+      "title": "write from a thread",
+      "expected": "file.write",
+      "caught": true,
+      "event": {
+        "seq": 4,
+        "kind": "file.write",
+        "name": "/tmp/et-corpus-3nclhx_s/undeclared/x21",
+        "outcome": "committed",
+        "comm": "python3",
+        "detail": {
+          "flags": [
+            "O_WRONLY",
+            "O_CREAT",
+            "O_TRUNC"
+          ],
+          "hook": "file_open"
+        }
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "case x21 done"
+    },
+    {
+      "id": "x22",
+      "title": "write from a forked child",
+      "expected": "file.write",
+      "caught": true,
+      "event": {
+        "seq": 4,
+        "kind": "file.write",
+        "name": "/tmp/et-corpus-3nclhx_s/undeclared/x22",
+        "outcome": "committed",
+        "comm": "python3",
+        "detail": {
+          "flags": [
+            "O_WRONLY",
+            "O_CREAT",
+            "O_TRUNC"
+          ],
+          "hook": "file_open"
+        }
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "case x22 done"
+    },
+    {
+      "id": "x23",
+      "title": "memfd_create",
+      "expected": "file.create",
+      "caught": true,
+      "event": {
+        "seq": 3,
+        "kind": "file.create",
+        "name": "memfd:leak23",
+        "outcome": "committed",
+        "comm": "python3",
+        "detail": null
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "case x23 done"
+    },
+    {
+      "id": "x24",
+      "title": "splice into a file",
+      "expected": "file.write",
+      "caught": true,
+      "event": {
+        "seq": 4,
+        "kind": "file.write",
+        "name": "/tmp/et-corpus-3nclhx_s/undeclared/x24",
+        "outcome": "committed",
+        "comm": "python3",
+        "detail": {
+          "via": "splice"
+        }
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "case x24 done"
+    },
+    {
+      "id": "x25",
+      "title": "ftruncate after PR_SET_DUMPABLE 0",
+      "expected": "*",
+      "caught": true,
+      "event": {
+        "seq": 4,
+        "kind": "file.write",
+        "name": "/tmp/et-corpus-3nclhx_s/undeclared/x25",
+        "outcome": "committed",
+        "comm": "python3",
+        "detail": {
+          "via": "ftruncate"
+        }
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "case x25 done"
+    },
+    {
+      "id": "x26",
+      "title": "connect after PR_SET_DUMPABLE 0",
+      "expected": "*",
+      "caught": true,
+      "event": {
+        "seq": 3,
+        "kind": "socket.connect",
+        "name": "tcp:127.0.0.1:57187",
+        "outcome": "committed",
+        "comm": "python3",
+        "detail": {
+          "errno": "EINPROGRESS"
+        }
+      },
+      "verify": 0,
+      "caseExit": 0,
+      "caseStdout": "case x26 done"
+    }
+  ]
+}

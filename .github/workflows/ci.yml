@@ -25,3 +25,24 @@ jobs:
           name: bench-runs
           path: bench/runs/
           if-no-files-found: ignore
+
+  ebpf:
+    # Builds --features ebpf and runs the tests as root. The eBPF test needs
+    # `bpf` in the kernel's active LSM list; where it is missing the test
+    # prints why and passes, so this job proves the build and the verifier
+    # load on hosted runners, and the full run where the kernel allows it.
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: BPF toolchain
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -y -q clang llvm libbpf-dev linux-tools-common "linux-tools-$(uname -r)" || sudo apt-get install -y -q clang llvm libbpf-dev bpftool
+          cat /sys/kernel/security/lsm || true
+      - name: Build with the eBPF backend
+        run: cargo build --release --locked --features ebpf
+      - name: Verifier load of every BPF program
+        run: sudo bpf/check.sh target/bpf-ci
+      - name: Tests as root
+        run: sudo -E env "PATH=$PATH" cargo test --release --locked --features ebpf

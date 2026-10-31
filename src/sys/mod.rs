@@ -3,6 +3,8 @@
 //! loop itself.
 
 pub mod dns;
+#[cfg(feature = "ebpf")]
+pub mod ebpf;
 pub mod mem;
 pub mod paths;
 pub mod procinfo;

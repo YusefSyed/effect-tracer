@@ -87,7 +87,7 @@ def one_run(mode, tracer, stubs, workdir, ignore):
 
 def main(argv=None):
     ap = argparse.ArgumentParser()
-    ap.add_argument("--mode", default="full", choices=["full", "seccomp", "none"])
+    ap.add_argument("--mode", default="full", choices=["full", "seccomp", "ebpf", "none"])
     ap.add_argument("--runs", type=int, default=1)
     ap.add_argument("--tracer", default=os.path.join(os.path.dirname(HERE), "target", "release", "effect-tracer"))
     ap.add_argument("--out", help="write the aggregate JSON here")

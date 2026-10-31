@@ -2,8 +2,10 @@
 
 Records what a Linux process tree does to the world: every file write,
 socket connect, DNS query and exec, into a hash-chained, Ed25519-signed
-ledger that a 300-line standard-library Python script can verify. Built on
-ptrace, so it needs no root, no kernel headers and no eBPF.
+ledger that a 300-line standard-library Python script can verify. Two
+backends write the same ledger: ptrace, which needs no root, kernel headers
+or eBPF, and BPF LSM hooks (`--mode ebpf`), which need root and in return
+cost almost nothing per event.
 
 ```
 $ effect-tracer run --out ledger -- sh -c 'echo hi > /tmp/x; cat /tmp/x; rm /tmp/x'
@@ -202,6 +204,40 @@ parallel build. An earlier unpinned run on the same machine
 (`bench/overhead-2026-10-31T041430Z.json`) gave 1.21x / 1.66x / 1.22x /
 1.69x for seccomp mode and 311x / 7.8x / 4.9x / 7.7x for full mode.
 
+### eBPF backend (`--mode ebpf`)
+
+Built with `cargo build --release --features ebpf` (needs clang and
+bpftool), run as root on a kernel with BPF LSM active. Same ledger format;
+EXPLAIN.md section 13 has the design. Results on the same machine:
+
+| check | result | file |
+|---|---|---|
+| agreement with `--mode full`, toy agent, (kind, name, outcome) per run | 30 of 30 runs identical, 354 of 354 events | `bench/agreement-2026-10-31-full-vs-ebpf.json` |
+| independent oracle: bpftrace on syscall tracepoints, same runs | 10 of 10 runs agree (344 effects per run) | `bench/oracle-2026-10-31-ebpf.json` |
+| seeded bypasses | 19 of 20, plus 6 of 6 extra; io_uring denied and recorded | `bench/corpus-2026-10-31-ebpf.json` |
+| clean runs | 30 runs, 0 undeclared events, 30 of 30 verified and complete | `bench/clean-runs-2026-10-31-ebpf.json` |
+
+The corpus miss is c04: in this container `linkat` of an `O_TMPFILE` file
+fails with EXDEV before the kernel reaches the LSM hook, so there is
+nothing to record (ptrace records the failed syscall).
+
+Overhead (`bench/overhead-ebpf-2026-10-31T054013Z.json`, same hyperfine
+settings): loading and attaching the programs is a fixed 1.81 s per run
+(W0, `/bin/true`), mostly the kernel installing trampolines rather than
+CPU. Take that out and the run itself costs:
+
+| workload | untraced | `--mode ebpf`, minus the fixed 1.81 s | for comparison: `--mode seccomp --pin-cpu` |
+|---|---|---|---|
+| W1 dd, 1M tiny syscalls | 0.244 s | 0.316 s (1.30x) | 0.99x |
+| W2 toy agent | 0.066 s | 0.067 s (1.01x) | 1.25x |
+| W3 pip install | 0.270 s | 0.272 s (1.01x) | 1.04x |
+| W4 pytest, 200 tests | 0.194 s | 0.215 s (1.11x) | 1.18x |
+
+W1 is the one place eBPF loses: `raw_tp/sys_enter` and `sys_exit` run on
+every syscall, about 70 ns per syscall pair here, where seccomp mode lets
+`read` and `write` through without a stop. Everywhere else eBPF mode costs
+0-11 percent with no pinning, at the price of root and the setup time.
+
 ## Limits
 
 Stated in every ledger (`ledger.json.limits`) and in [EXPLAIN.md](EXPLAIN.md) section 9:
@@ -262,8 +298,9 @@ and RFC 9162 (leaf hashing). None of their code is used.
 
 ## Roadmap
 
-- eBPF backend (aya; LSM hooks + `sys_exit`, cgroup filter) with the same
-  ledger, validated event-for-event against this one and a bpftrace oracle.
+- eBPF backend: done in `--mode ebpf` (above). Next: keep the programs
+  attached between runs so the setup cost is paid once, and run its CI job
+  under sudo on a hosted runner.
 - DSSE / in-toto Statement envelope around the checkpoint.
 - A Landlock confinement mode, so the ledger can also say what was refused.
 - Decoding 32-bit ABI syscalls instead of flagging them.

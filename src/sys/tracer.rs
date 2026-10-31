@@ -168,17 +168,17 @@ pub struct Tracer {
     pinned_cpu: Option<usize>,
 }
 
-fn exec_id(boot_id: &str, pid: i32, start: u64, gen: u32) -> String {
+pub(crate) fn exec_id(boot_id: &str, pid: i32, start: u64, gen: u32) -> String {
     let short: String = boot_id.chars().take(8).collect();
     format!("{short}:{pid}:{start}:{gen}")
 }
 
-fn errno_name(e: i32) -> String {
+pub(crate) fn errno_name(e: i32) -> String {
     format!("{:?}", Errno::from_raw(e))
 }
 
 /// Search PATH the way execvp does, without executing anything.
-fn resolve_on_path(cmd: &str) -> String {
+pub(crate) fn resolve_on_path(cmd: &str) -> String {
     if cmd.contains('/') {
         return cmd.to_string();
     }
@@ -246,7 +246,7 @@ pub(crate) fn child_exec(
 
 /// Restrict this process to one CPU; the child forked next inherits the
 /// mask, and so does every task in its tree unless it changes its own.
-fn pin_to_cpu(spec: &str) -> Result<usize> {
+pub(crate) fn pin_to_cpu(spec: &str) -> Result<usize> {
     let cpu = if spec == "auto" {
         // SAFETY: sched_getcpu takes no arguments.
         let c = unsafe { libc::sched_getcpu() };
@@ -488,7 +488,7 @@ pub fn run(args: RunArgs) -> Result<u8> {
     Ok(code)
 }
 
-fn tracer_cpu_ms() -> u64 {
+pub(crate) fn tracer_cpu_ms() -> u64 {
     // SAFETY: rusage is a plain struct getrusage fills in.
     unsafe {
         let mut ru: libc::rusage = std::mem::zeroed();
@@ -1677,7 +1677,7 @@ fn first_iov(tid: i32, iov_ptr: u64, iov_len: u64) -> Option<Vec<u8>> {
     iov_total(tid, iov_ptr, iov_len)?.0
 }
 
-fn open_flag_names(flags: i32) -> Vec<&'static str> {
+pub(crate) fn open_flag_names(flags: i32) -> Vec<&'static str> {
     let mut v = Vec::new();
     match flags & libc::O_ACCMODE {
         libc::O_RDONLY => v.push("O_RDONLY"),

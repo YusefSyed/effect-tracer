@@ -53,6 +53,9 @@ pub enum Mode {
     /// Stop only at the effect syscalls selected by a seccomp filter
     /// (SECCOMP_RET_TRACE), then once more at their exit.
     Seccomp,
+    /// No stops: BPF LSM hooks and tracepoints (root; build with
+    /// `--features ebpf`).
+    Ebpf,
 }
 
 impl Mode {
@@ -60,6 +63,7 @@ impl Mode {
         match self {
             Mode::Full => "ptrace",
             Mode::Seccomp => "ptrace+seccomp",
+            Mode::Ebpf => "ebpf",
         }
     }
 }
@@ -132,7 +136,12 @@ fn main() -> ExitCode {
 
 #[cfg(target_os = "linux")]
 fn run(args: RunArgs) -> ExitCode {
-    match sys::tracer::run(args) {
+    let result = if args.mode == Mode::Ebpf {
+        run_ebpf(args)
+    } else {
+        sys::tracer::run(args)
+    };
+    match result {
         Ok(code) => ExitCode::from(code),
         Err(e) => {
             eprintln!("effect-tracer: {e:#}");
@@ -148,4 +157,14 @@ fn run(_args: RunArgs) -> ExitCode {
         std::env::consts::OS
     );
     ExitCode::from(2)
+}
+
+#[cfg(all(target_os = "linux", feature = "ebpf"))]
+fn run_ebpf(args: RunArgs) -> anyhow::Result<u8> {
+    sys::ebpf::run(args)
+}
+
+#[cfg(all(target_os = "linux", not(feature = "ebpf")))]
+fn run_ebpf(_args: RunArgs) -> anyhow::Result<u8> {
+    anyhow::bail!("--mode ebpf needs a build with `cargo build --features ebpf`")
 }
