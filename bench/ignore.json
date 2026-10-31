@@ -1,0 +1,13 @@
+{
+  "schema": "effect-tracer-ignore/1",
+  "note": "Published ignore list for the clean-run (false positive) measurement. Each rule names platform noise that is not an effect of the workload. The toy agent needs none of them; they are here so the same list can be reused on other workloads, and the bench JSON reports how many events each run ignored.",
+  "rules": [
+    {"kind": "file.write", "name": "/dev/null", "why": "discarding output is not an effect"},
+    {"kind": "file.write", "name": "/dev/tty", "why": "terminal output"},
+    {"kind": "file.write", "name": "/dev/pts/*", "why": "terminal output"},
+    {"kind": "file.write", "name": "/dev/ptmx", "why": "terminal allocation"},
+    {"kind": "file.write", "name": "/dev/full", "why": "test device"},
+    {"kind": "file.write", "name": "/dev/zero", "why": "no observable effect"},
+    {"kind": "file.create", "name": "memfd:*", "why": "anonymous memory, no name on disk; named so it stays visible, ignored for the clean count"}
+  ]
+}

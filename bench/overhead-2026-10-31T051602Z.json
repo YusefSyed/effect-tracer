@@ -1,0 +1,504 @@
+{
+  "schema": "effect-tracer-bench-overhead/1",
+  "env": {
+    "date": "2026-10-31T05:36:01Z",
+    "kernel": "6.12.76-linuxkit",
+    "machine": "aarch64",
+    "os": "Debian GNU/Linux 12 (bookworm)",
+    "cpus": 10,
+    "memTotalMiB": 7936,
+    "inDockerContainer": true,
+    "python": "3.11.2",
+    "tracer": "effect-tracer 0.1.0",
+    "tracerBuild": "release",
+    "hyperfine": "hyperfine 1.15.0",
+    "hostNote": ""
+  },
+  "hyperfine": {
+    "runs": 10,
+    "warmup": 2,
+    "shell": "none (-N)"
+  },
+  "modes": {
+    "none": "untraced",
+    "ptrace": "--mode full: a stop at every syscall entry and exit",
+    "ptrace+seccomp": "--mode seccomp: stops only at effect syscalls",
+    "<mode>@cpuN": "the same, with the tracer and the whole tree on CPU N (--pin-cpu N; taskset -c N for none)"
+  },
+  "pinCpu": 2,
+  "workloads": {
+    "W1": {
+      "description": "dd if=/dev/zero of=/dev/null bs=1 count=500k (about 1,024,000 syscalls; the ptrace worst case)",
+      "command": "none",
+      "modes": {
+        "none": {
+          "meanS": 0.26397930830000005,
+          "medianS": 0.2638713125,
+          "minS": 0.26139695900000004,
+          "maxS": 0.267329625,
+          "p95S": 0.267329625,
+          "userS": 0.08570069999999999,
+          "systemS": 0.17811,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "ratioMedian": 1.0,
+          "overheadPercentMedian": 0.0,
+          "ratioMedianSamePlacement": 1.0
+        },
+        "ptrace": {
+          "meanS": 83.2034440253,
+          "medianS": 78.5515520565,
+          "minS": 71.956666741,
+          "maxS": 108.953981841,
+          "p95S": 108.953981841,
+          "userS": 7.2268132000000005,
+          "systemS": 34.0329973,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "lastRunStops": 2048104,
+          "lastRunTracerCpuMs": 20217,
+          "lastRunEvents": 4,
+          "lastRunCoverage": "complete",
+          "ratioMedian": 297.689,
+          "overheadPercentMedian": 29668.9,
+          "ratioMedianSamePlacement": 297.689
+        },
+        "ptrace+seccomp": {
+          "meanS": 0.2946926084,
+          "medianS": 0.294569125,
+          "minS": 0.292918375,
+          "maxS": 0.297761541,
+          "p95S": 0.297761541,
+          "userS": 0.08347679999999999,
+          "systemS": 0.2082137,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "lastRunStops": 7,
+          "lastRunTracerCpuMs": 1,
+          "lastRunEvents": 4,
+          "lastRunCoverage": "complete",
+          "ratioMedian": 1.116,
+          "overheadPercentMedian": 11.6,
+          "ratioMedianSamePlacement": 1.116
+        },
+        "none@cpu2": {
+          "meanS": 0.24325494600000003,
+          "medianS": 0.24307575,
+          "minS": 0.239762416,
+          "maxS": 0.24720150000000002,
+          "p95S": 0.24720150000000002,
+          "userS": 0.0811643,
+          "systemS": 0.1618425,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "ratioMedian": 0.921,
+          "overheadPercentMedian": -7.9,
+          "ratioMedianSamePlacement": 1.0
+        },
+        "ptrace@cpu2": {
+          "meanS": 5.537791406799999,
+          "medianS": 5.5893994605,
+          "minS": 4.948332086,
+          "maxS": 5.726146544,
+          "p95S": 5.726146544,
+          "userS": 0.9135393999999998,
+          "systemS": 4.615945699999999,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "lastRunStops": 2048104,
+          "lastRunTracerCpuMs": 3858,
+          "lastRunEvents": 4,
+          "lastRunCoverage": "complete",
+          "ratioMedian": 21.182,
+          "overheadPercentMedian": 2018.2,
+          "ratioMedianSamePlacement": 22.994
+        },
+        "ptrace+seccomp@cpu2": {
+          "meanS": 0.24157361700000002,
+          "medianS": 0.24049893700000002,
+          "minS": 0.23097520900000001,
+          "maxS": 0.257162126,
+          "p95S": 0.257162126,
+          "userS": 0.06817189999999998,
+          "systemS": 0.16611139999999996,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "lastRunStops": 7,
+          "lastRunTracerCpuMs": 1,
+          "lastRunEvents": 4,
+          "lastRunCoverage": "complete",
+          "ratioMedian": 0.911,
+          "overheadPercentMedian": -8.9,
+          "ratioMedianSamePlacement": 0.989
+        }
+      }
+    },
+    "W2": {
+      "description": "toy agent: 200 file writes, 50 local HTTP calls, 20 subprocesses, 10 DNS lookups",
+      "command": "none",
+      "modes": {
+        "none": {
+          "meanS": 0.11536007100000001,
+          "medianS": 0.112060146,
+          "minS": 0.106489,
+          "maxS": 0.13675900000000002,
+          "p95S": 0.13675900000000002,
+          "userS": 0.062106499999999995,
+          "systemS": 0.0245563,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "ratioMedian": 1.0,
+          "overheadPercentMedian": 0.0,
+          "ratioMedianSamePlacement": 1.0
+        },
+        "ptrace": {
+          "meanS": 1.2487668381,
+          "medianS": 1.2122272920000001,
+          "minS": 0.524137084,
+          "maxS": 2.82229346,
+          "p95S": 2.82229346,
+          "userS": 0.1516378,
+          "systemS": 0.3390911,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "lastRunStops": 11782,
+          "lastRunTracerCpuMs": 156,
+          "lastRunEvents": 355,
+          "lastRunCoverage": "complete",
+          "ratioMedian": 10.818,
+          "overheadPercentMedian": 981.8,
+          "ratioMedianSamePlacement": 10.818
+        },
+        "ptrace+seccomp": {
+          "meanS": 0.1499355542,
+          "medianS": 0.15159097900000001,
+          "minS": 0.13431916700000002,
+          "maxS": 0.16103266700000002,
+          "p95S": 0.16103266700000002,
+          "userS": 0.0758843,
+          "systemS": 0.0414733,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "lastRunStops": 829,
+          "lastRunTracerCpuMs": 17,
+          "lastRunEvents": 355,
+          "lastRunCoverage": "complete",
+          "ratioMedian": 1.353,
+          "overheadPercentMedian": 35.3,
+          "ratioMedianSamePlacement": 1.353
+        },
+        "none@cpu2": {
+          "meanS": 0.0905887416,
+          "medianS": 0.09294560400000001,
+          "minS": 0.077878,
+          "maxS": 0.10524304100000001,
+          "p95S": 0.10524304100000001,
+          "userS": 0.059456199999999994,
+          "systemS": 0.0162695,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "ratioMedian": 0.829,
+          "overheadPercentMedian": -17.1,
+          "ratioMedianSamePlacement": 1.0
+        },
+        "ptrace@cpu2": {
+          "meanS": 0.13890159600000002,
+          "medianS": 0.135891646,
+          "minS": 0.123149875,
+          "maxS": 0.154472667,
+          "p95S": 0.154472667,
+          "userS": 0.0684472,
+          "systemS": 0.05308029999999999,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "lastRunStops": 11786,
+          "lastRunTracerCpuMs": 32,
+          "lastRunEvents": 355,
+          "lastRunCoverage": "complete",
+          "ratioMedian": 1.213,
+          "overheadPercentMedian": 21.3,
+          "ratioMedianSamePlacement": 1.462
+        },
+        "ptrace+seccomp@cpu2": {
+          "meanS": 0.1059894043,
+          "medianS": 0.1040267295,
+          "minS": 0.09518662500000001,
+          "maxS": 0.12167245900000001,
+          "p95S": 0.12167245900000001,
+          "userS": 0.0622316,
+          "systemS": 0.024302399999999995,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "lastRunStops": 829,
+          "lastRunTracerCpuMs": 8,
+          "lastRunEvents": 355,
+          "lastRunCoverage": "complete",
+          "ratioMedian": 0.928,
+          "overheadPercentMedian": -7.2,
+          "ratioMedianSamePlacement": 1.119
+        }
+      }
+    },
+    "W3": {
+      "description": "offline pip install of requests (--no-index --force-reinstall --no-deps) into a venv",
+      "command": "none",
+      "modes": {
+        "none": {
+          "meanS": 0.4064222376,
+          "medianS": 0.42085127050000004,
+          "minS": 0.328808833,
+          "maxS": 0.447631541,
+          "p95S": 0.447631541,
+          "userS": 0.3534014,
+          "systemS": 0.050960700000000005,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "ratioMedian": 1.0,
+          "overheadPercentMedian": 0.0,
+          "ratioMedianSamePlacement": 1.0
+        },
+        "ptrace": {
+          "meanS": 1.4187800173,
+          "medianS": 1.3861309585000001,
+          "minS": 1.359694542,
+          "maxS": 1.6746992920000001,
+          "p95S": 1.6746992920000001,
+          "userS": 0.44234159999999995,
+          "systemS": 0.42971269999999995,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "lastRunStops": 28858,
+          "lastRunTracerCpuMs": 266,
+          "lastRunEvents": 206,
+          "lastRunCoverage": "complete",
+          "ratioMedian": 3.294,
+          "overheadPercentMedian": 229.4,
+          "ratioMedianSamePlacement": 3.294
+        },
+        "ptrace+seccomp": {
+          "meanS": 0.34988728760000004,
+          "medianS": 0.3549964375,
+          "minS": 0.311596875,
+          "maxS": 0.393800666,
+          "p95S": 0.393800666,
+          "userS": 0.2862593,
+          "systemS": 0.04981289999999999,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "lastRunStops": 431,
+          "lastRunTracerCpuMs": 11,
+          "lastRunEvents": 206,
+          "lastRunCoverage": "complete",
+          "ratioMedian": 0.844,
+          "overheadPercentMedian": -15.6,
+          "ratioMedianSamePlacement": 0.844
+        },
+        "none@cpu2": {
+          "meanS": 0.31543157110000003,
+          "medianS": 0.31296883400000003,
+          "minS": 0.305146958,
+          "maxS": 0.33936587500000004,
+          "p95S": 0.33936587500000004,
+          "userS": 0.2757699999999999,
+          "systemS": 0.0358148,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "ratioMedian": 0.744,
+          "overheadPercentMedian": -25.6,
+          "ratioMedianSamePlacement": 1.0
+        },
+        "ptrace@cpu2": {
+          "meanS": 0.4157596792000001,
+          "medianS": 0.412699771,
+          "minS": 0.40499758300000005,
+          "maxS": 0.432661416,
+          "p95S": 0.432661416,
+          "userS": 0.29798849999999993,
+          "systemS": 0.11180939999999999,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "lastRunStops": 28633,
+          "lastRunTracerCpuMs": 62,
+          "lastRunEvents": 201,
+          "lastRunCoverage": "complete",
+          "ratioMedian": 0.981,
+          "overheadPercentMedian": -1.9,
+          "ratioMedianSamePlacement": 1.319
+        },
+        "ptrace+seccomp@cpu2": {
+          "meanS": 0.374063246,
+          "medianS": 0.3748260205,
+          "minS": 0.33164975,
+          "maxS": 0.461458376,
+          "p95S": 0.461458376,
+          "userS": 0.3185945,
+          "systemS": 0.047896900000000006,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "lastRunStops": 411,
+          "lastRunTracerCpuMs": 6,
+          "lastRunEvents": 201,
+          "lastRunCoverage": "complete",
+          "ratioMedian": 0.891,
+          "overheadPercentMedian": -10.9,
+          "ratioMedianSamePlacement": 1.198
+        }
+      }
+    },
+    "W4": {
+      "description": "pytest, 200 small tests (bench/w4_tests/test_w4.py)",
+      "command": "none",
+      "modes": {
+        "none": {
+          "meanS": 0.29805859590000006,
+          "medianS": 0.30280431250000006,
+          "minS": 0.25222916700000003,
+          "maxS": 0.34880045800000004,
+          "p95S": 0.34880045800000004,
+          "userS": 0.26333229999999996,
+          "systemS": 0.0334059,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "ratioMedian": 1.0,
+          "overheadPercentMedian": 0.0,
+          "ratioMedianSamePlacement": 1.0
+        },
+        "ptrace": {
+          "meanS": 1.9444268508,
+          "medianS": 1.972756167,
+          "minS": 1.595684709,
+          "maxS": 2.040601418,
+          "p95S": 2.040601418,
+          "userS": 0.5078581,
+          "systemS": 0.7304182,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "lastRunStops": 35758,
+          "lastRunTracerCpuMs": 346,
+          "lastRunEvents": 1645,
+          "lastRunCoverage": "complete",
+          "ratioMedian": 6.515,
+          "overheadPercentMedian": 551.5,
+          "ratioMedianSamePlacement": 6.515
+        },
+        "ptrace+seccomp": {
+          "meanS": 0.37207883350000004,
+          "medianS": 0.3677936045,
+          "minS": 0.36237770900000005,
+          "maxS": 0.40494075,
+          "p95S": 0.40494075,
+          "userS": 0.2258971,
+          "systemS": 0.07839919999999999,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "lastRunStops": 3289,
+          "lastRunTracerCpuMs": 47,
+          "lastRunEvents": 1645,
+          "lastRunCoverage": "complete",
+          "ratioMedian": 1.215,
+          "overheadPercentMedian": 21.5,
+          "ratioMedianSamePlacement": 1.215
+        },
+        "none@cpu2": {
+          "meanS": 0.20544227110000005,
+          "medianS": 0.2049438965,
+          "minS": 0.197297667,
+          "maxS": 0.224888375,
+          "p95S": 0.224888375,
+          "userS": 0.1822198,
+          "systemS": 0.022013699999999997,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "ratioMedian": 0.677,
+          "overheadPercentMedian": -32.3,
+          "ratioMedianSamePlacement": 1.0
+        },
+        "ptrace@cpu2": {
+          "meanS": 0.3190643376,
+          "medianS": 0.3157689375,
+          "minS": 0.308689875,
+          "maxS": 0.334397875,
+          "p95S": 0.334397875,
+          "userS": 0.2077643,
+          "systemS": 0.10530950000000001,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "lastRunStops": 35760,
+          "lastRunTracerCpuMs": 77,
+          "lastRunEvents": 1645,
+          "lastRunCoverage": "complete",
+          "ratioMedian": 1.043,
+          "overheadPercentMedian": 4.3,
+          "ratioMedianSamePlacement": 1.541
+        },
+        "ptrace+seccomp@cpu2": {
+          "meanS": 0.24040270000000002,
+          "medianS": 0.237569667,
+          "minS": 0.231518666,
+          "maxS": 0.255610291,
+          "p95S": 0.255610291,
+          "userS": 0.1954386,
+          "systemS": 0.03794009999999999,
+          "runs": 10,
+          "exitCodes": [
+            0
+          ],
+          "lastRunStops": 3289,
+          "lastRunTracerCpuMs": 20,
+          "lastRunEvents": 1645,
+          "lastRunCoverage": "complete",
+          "ratioMedian": 0.785,
+          "overheadPercentMedian": -21.5,
+          "ratioMedianSamePlacement": 1.159
+        }
+      }
+    }
+  },
+  "markdownTable": "| workload | mode | median s | p95 s | x untraced | x untraced, same CPU | stops | tracer CPU ms |\n|---|---|---|---|---|---|---|---|\n| W1 | none | 0.2639 | 0.2673 | 1.0 | 1.0 |  |  |\n| W1 | ptrace | 78.5516 | 108.9540 | 297.689 | 297.689 | 2048104 | 20217 |\n| W1 | ptrace+seccomp | 0.2946 | 0.2978 | 1.116 | 1.116 | 7 | 1 |\n| W1 | none@cpu2 | 0.2431 | 0.2472 | 0.921 | 1.0 |  |  |\n| W1 | ptrace@cpu2 | 5.5894 | 5.7261 | 21.182 | 22.994 | 2048104 | 3858 |\n| W1 | ptrace+seccomp@cpu2 | 0.2405 | 0.2572 | 0.911 | 0.989 | 7 | 1 |\n| W2 | none | 0.1121 | 0.1368 | 1.0 | 1.0 |  |  |\n| W2 | ptrace | 1.2122 | 2.8223 | 10.818 | 10.818 | 11782 | 156 |\n| W2 | ptrace+seccomp | 0.1516 | 0.1610 | 1.353 | 1.353 | 829 | 17 |\n| W2 | none@cpu2 | 0.0929 | 0.1052 | 0.829 | 1.0 |  |  |\n| W2 | ptrace@cpu2 | 0.1359 | 0.1545 | 1.213 | 1.462 | 11786 | 32 |\n| W2 | ptrace+seccomp@cpu2 | 0.1040 | 0.1217 | 0.928 | 1.119 | 829 | 8 |\n| W3 | none | 0.4209 | 0.4476 | 1.0 | 1.0 |  |  |\n| W3 | ptrace | 1.3861 | 1.6747 | 3.294 | 3.294 | 28858 | 266 |\n| W3 | ptrace+seccomp | 0.3550 | 0.3938 | 0.844 | 0.844 | 431 | 11 |\n| W3 | none@cpu2 | 0.3130 | 0.3394 | 0.744 | 1.0 |  |  |\n| W3 | ptrace@cpu2 | 0.4127 | 0.4327 | 0.981 | 1.319 | 28633 | 62 |\n| W3 | ptrace+seccomp@cpu2 | 0.3748 | 0.4615 | 0.891 | 1.198 | 411 | 6 |\n| W4 | none | 0.3028 | 0.3488 | 1.0 | 1.0 |  |  |\n| W4 | ptrace | 1.9728 | 2.0406 | 6.515 | 6.515 | 35758 | 346 |\n| W4 | ptrace+seccomp | 0.3678 | 0.4049 | 1.215 | 1.215 | 3289 | 47 |\n| W4 | none@cpu2 | 0.2049 | 0.2249 | 0.677 | 1.0 |  |  |\n| W4 | ptrace@cpu2 | 0.3158 | 0.3344 | 1.043 | 1.541 | 35760 | 77 |\n| W4 | ptrace+seccomp@cpu2 | 0.2376 | 0.2556 | 0.785 | 1.159 | 3289 | 20 |"
+}

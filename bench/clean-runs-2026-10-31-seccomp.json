@@ -1,0 +1,1081 @@
+{
+  "schema": "effect-tracer-bench-clean-runs/1",
+  "env": {
+    "date": "2026-10-31T05:50:22Z",
+    "kernel": "6.12.76-linuxkit",
+    "machine": "aarch64",
+    "os": "Debian GNU/Linux 12 (bookworm)",
+    "cpus": 10,
+    "memTotalMiB": 7936,
+    "inDockerContainer": true,
+    "python": "3.11.2",
+    "tracer": "effect-tracer 0.1.0",
+    "tracerBuild": "release",
+    "hyperfine": "hyperfine 1.15.0",
+    "hostNote": ""
+  },
+  "workload": "W2 toy agent (bench/toy_agent.py): 200 file writes, 50 local HTTP calls, 20 subprocesses, 10 DNS lookups to a local stub",
+  "manifest": "roots=[work root], hosts=[http stub, dns stub], dnsSuffixes=[.toy.test], exes=[python3, sh, cat]",
+  "ignoreList": "bench/ignore.json",
+  "mode": "seccomp",
+  "runs": 30,
+  "runsWithUndeclaredEvents": 0,
+  "totalUndeclaredEvents": 0,
+  "totalIgnoredEvents": 0,
+  "runsVerified": 30,
+  "runsCoverageComplete": 30,
+  "agentFailures": 0,
+  "wallMedianS": 0.119,
+  "perRun": [
+    {
+      "mode": "seccomp",
+      "wallS": 0.1126,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 15,
+        "wallMs": 105
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.1663,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 23,
+        "wallMs": 161
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.1125,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 16,
+        "wallMs": 108
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.1237,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 18,
+        "wallMs": 116
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.1219,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 17,
+        "wallMs": 113
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.1179,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 17,
+        "wallMs": 113
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.1052,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 15,
+        "wallMs": 98
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.0982,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 14,
+        "wallMs": 94
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.1013,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 14,
+        "wallMs": 96
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.1031,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 14,
+        "wallMs": 94
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.0994,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 14,
+        "wallMs": 92
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.0962,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 13,
+        "wallMs": 90
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.1016,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 14,
+        "wallMs": 95
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.1209,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 18,
+        "wallMs": 116
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.1225,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 17,
+        "wallMs": 115
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.2011,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 29,
+        "wallMs": 196
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.1234,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 17,
+        "wallMs": 116
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.106,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 14,
+        "wallMs": 98
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.1318,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 18,
+        "wallMs": 126
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.1033,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 15,
+        "wallMs": 97
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.1205,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 17,
+        "wallMs": 112
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.1051,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 14,
+        "wallMs": 97
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.1075,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 15,
+        "wallMs": 102
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.119,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 17,
+        "wallMs": 110
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.1176,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 16,
+        "wallMs": 113
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.1699,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 22,
+        "wallMs": 162
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.123,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 18,
+        "wallMs": 118
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.1735,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 19,
+        "wallMs": 158
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.1547,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 17,
+        "wallMs": 149
+      }
+    },
+    {
+      "mode": "seccomp",
+      "wallS": 0.1672,
+      "agentExit": 0,
+      "agentStdout": "toy agent: files=201 http_ok=50 dns_answered=10",
+      "verify": 0,
+      "events": 356,
+      "coverage": "complete",
+      "kinds": {
+        "run.start": 1,
+        "process.exec": 21,
+        "file.create": 1,
+        "file.write": 221,
+        "process.fork": 20,
+        "process.exit": 21,
+        "socket.connect": 50,
+        "socket.send": 10,
+        "dns.query": 10,
+        "run.end": 1
+      },
+      "manifest": {
+        "structural": 43,
+        "declared": 313,
+        "ignored": 0,
+        "undeclared": 0
+      },
+      "undeclared": [],
+      "stats": {
+        "events": 355,
+        "processes": 21,
+        "stops": 829,
+        "tracerCpuMs": 22,
+        "wallMs": 161
+      }
+    }
+  ]
+}

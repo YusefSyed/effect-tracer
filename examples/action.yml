@@ -1,0 +1,46 @@
+# Example GitHub Actions job: build a project under effect-tracer, keep the
+# signed ledger as an artifact, and fail the job if the ledger does not
+# verify or if the build touched anything outside what the manifest declares.
+#
+# The tracer needs no privilege on GitHub's ubuntu runners: Yama's
+# ptrace_scope=1 allows tracing your own children.
+name: build-under-effect-tracer
+on: [push]
+
+jobs:
+  traced-build:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install effect-tracer
+        run: |
+          cargo install --git https://github.com/YusefSyed/effect-tracer --tag v0.1.0 --locked
+          curl -fsSLO https://raw.githubusercontent.com/YusefSyed/effect-tracer/v0.1.0/verifier/verify_ledger.py
+          curl -fsSLO https://raw.githubusercontent.com/YusefSyed/effect-tracer/v0.1.0/bench/check_manifest.py
+
+      - name: Declare what the build may touch
+        run: |
+          cat > manifest.json <<'JSON'
+          {
+            "roots": ["${{ github.workspace }}", "/tmp", "/home/runner/.cache", "/home/runner/.npm"],
+            "hosts": ["tcp:*"],
+            "dnsSuffixes": ["registry.npmjs.org", "github.com"],
+            "exes": ["npm", "node", "sh", "bash", "git", "uname", "env"]
+          }
+          JSON
+
+      - name: Run the build under the tracer
+        run: effect-tracer run --quiet --mode seccomp --out ledger -- npm ci
+
+      - name: Verify the ledger (exit 0 = intact, complete coverage)
+        run: python3 verify_ledger.py ledger
+
+      - name: Anything undeclared?
+        run: python3 check_manifest.py ledger manifest.json
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: effect-ledger
+          path: ledger/

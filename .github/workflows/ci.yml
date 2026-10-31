@@ -1,0 +1,27 @@
+name: ci
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Build
+        run: cargo build --release --locked
+      - name: Rust tests (unit + integration, ptrace on the runner)
+        run: cargo test --release --locked
+      - name: Verifier tamper suite (stdlib Python)
+        run: python3 -W error -m unittest discover -s verifier -p 'test_*.py' -v
+      - name: Toy agent clean runs and bypass corpus
+        run: ci/run.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bench-runs
+          path: bench/runs/
+          if-no-files-found: ignore
