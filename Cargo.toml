@@ -1,6 +1,6 @@
 [package]
 name = "effect-tracer"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 license = "Apache-2.0"
 description = "Records every file write, socket connect, DNS query and exec of a Linux process tree into a hash-chained, Ed25519-signed ledger (ptrace)."

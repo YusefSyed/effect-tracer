@@ -98,6 +98,23 @@ fn records_exec_write_rename_delete_and_signs() {
 }
 
 #[test]
+fn netlink_route_socket_is_named_not_a_coverage_gap() {
+    // glibc getaddrinfo opens socket(AF_NETLINK, SOCK_RAW, NETLINK_ROUTE); before
+    // v0.1.1 that read as a raw-socket gap and every hostname lookup made the run partial.
+    let (base, events, _cp, lj) = run_ledger(
+        "netlink",
+        "python3 -c 'import socket; s = socket.socket(socket.AF_NETLINK, socket.SOCK_RAW, 0); s.close()'",
+    );
+    assert!(has(&events, "socket.netlink", "route"), "netlink socket not recorded");
+    assert!(
+        !has(&events, "coverage.gap", "raw-socket"),
+        "netlink socket still read as a raw-socket gap"
+    );
+    assert_eq!(lj["coverage"]["status"], "complete");
+    let _ = fs::remove_dir_all(base);
+}
+
+#[test]
 fn exit_code_passes_through() {
     let base = std::env::temp_dir().join(format!("effect-tracer-test-exit-{}", std::process::id()));
     let _ = fs::remove_dir_all(&base);

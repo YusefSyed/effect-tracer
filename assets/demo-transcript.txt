@@ -1,0 +1,47 @@
+### run
+#1 run.start 6e143b6c700950e78604af7723b7b1f6 committed pid=7 effect-tracer
+#2 process.exec /usr/bin/dash committed pid=8 sh
+#3 process.fork /usr/bin/dash committed pid=8 sh via="vfork" childPid=9
+#4 process.exec /usr/bin/mkdir committed pid=9 mkdir
+#5 file.create /work failed pid=9 mkdir errno="EEXIST"
+#6 file.create /work/out committed pid=9 mkdir
+#7 process.exit /usr/bin/mkdir committed pid=9 mkdir exitCode=0
+#8 process.fork /usr/bin/dash committed pid=8 sh via="vfork" childPid=10
+#9 process.exec /usr/local/bin/python3.12 committed pid=10 python3
+#10 file.write /work/out/page.html committed pid=10 python3
+#11 socket.connect unix:/var/run/nscd/socket failed pid=10 python3 errno="ENOENT"
+#12 socket.connect unix:/var/run/nscd/socket failed pid=10 python3 errno="ENOENT"
+#13 socket.connect udp:192.168.65.7:53 committed pid=10 python3
+#14 dns.query example.com committed pid=10 python3 qtype="A"
+#15 dns.query example.com committed pid=10 python3 qtype="AAAA"
+#16 socket.netlink route committed pid=10 python3
+#17 socket.bind netlink committed pid=10 python3
+#18 socket.send netlink committed pid=10 python3
+#19 socket.connect udp:104.20.23.154:443 committed pid=10 python3
+#20 socket.connect af0 committed pid=10 python3
+#21 socket.connect udp:172.66.147.243:443 committed pid=10 python3
+#22 socket.connect tcp:104.20.23.154:443 committed pid=10 python3
+#23 process.exit /usr/local/bin/python3.12 committed pid=10 python3 exitCode=0
+#24 file.write /work/out/report.txt committed pid=8 sh
+#25 process.fork /usr/bin/dash committed pid=8 sh via="vfork" childPid=11
+#26 process.exec /usr/bin/wc committed pid=11 wc
+#27 process.exit /usr/bin/wc committed pid=11 wc exitCode=0
+#28 process.fork /usr/bin/dash committed pid=8 sh via="vfork" childPid=12
+#29 process.exec /usr/bin/cp committed pid=12 cp
+#30 file.create /work/out/report.bak committed pid=12 cp
+#31 file.write /work/out/report.bak committed pid=12 cp via="copy_file_range"
+#32 file.write /work/out/report.bak committed pid=12 cp via="copy_file_range"
+#33 process.exit /usr/bin/cp committed pid=12 cp exitCode=0
+#34 process.fork /usr/bin/dash committed pid=8 sh via="vfork" childPid=13
+#35 process.exec /usr/bin/rm committed pid=13 rm
+#36 file.delete /work/out/report.bak committed pid=13 rm
+#37 process.exit /usr/bin/rm committed pid=13 rm exitCode=0
+#38 process.exit /usr/bin/dash committed pid=8 sh exitCode=0
+#39 run.end 6e143b6c700950e78604af7723b7b1f6 committed pid=7 effect-tracer
+exit=0
+### verify
+OK: 39 events, run 6e143b6c700950e78604af7723b7b1f6, mechanism ptrace+seccomp, coverage complete, signed by keyid 2f50fb7a5d8343cf... (unpinned: pass --pubkey to check who signed)
+exit=0
+### tamper
+FAIL (1): chain broken at line 31: prev does not match the previous leaf hash
+exit=1

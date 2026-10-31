@@ -133,6 +133,7 @@ pub fn render(label: &str, a: &SockAddr) -> String {
             v6: true,
         } => format!("{label}:[{host}]:{port}"),
         SockAddr::Unix { path } => format!("unix:{path}"),
+        SockAddr::Other { family } if *family == libc::AF_NETLINK as u16 => "netlink".to_string(),
         SockAddr::Other { family } => format!("af{family}"),
     }
 }

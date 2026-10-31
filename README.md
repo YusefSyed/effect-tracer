@@ -29,6 +29,17 @@ being able to say afterwards, with a signature, exactly which files it
 wrote, which hosts it talked to and which programs it ran, or that the run
 had a blind spot (`coverage: partial`) and why.
 
+## Demo
+
+A toy agent fetches a page, writes a report, copies it and deletes the copy.
+The tracer prints each effect as it commits; the verifier then checks the
+chain and the signature, and one edited byte in the ledger breaks it.
+
+<p align="center"><img src="assets/demo.svg" alt="Animated terminal: effect-tracer run on a toy agent, verify_ledger.py reports OK, a tampered copy fails at the edited line" width="820"></p>
+
+Recorded on 2026-10-31 in an arm64 Debian container (`--mode seccomp`); the
+exact transcript is in [assets/demo-transcript.txt](assets/demo-transcript.txt).
+
 ## What is in the box
 
 | piece | where |
@@ -56,9 +67,9 @@ as `ip:host:port` with `detail.transportUnknown`, and DNS questions are
 still parsed. The corpus in such a container
 (`bench/corpus-2026-10-31-*-docker-default.json`) scores 18 of 20 in full
 mode, the two misses being c08 and c19 recorded as `ip:` where the strict
-check expects `udp:` and `tcp:`. The CI workflow targets GitHub's
-`ubuntu-24.04` runners without sudo; it has run locally in a container,
-not yet on GitHub.
+check expects `udp:` and `tcp:`. The CI workflow runs on GitHub's
+`ubuntu-24.04` runners without sudo (build, Rust tests under ptrace, the
+verifier tamper suite, the toy-agent clean runs and the bypass corpus).
 
 ## Use
 
@@ -269,11 +280,24 @@ and RFC 9162 (leaf hashing). None of their code is used.
 
 ## Roadmap
 
-- eBPF backend (aya; LSM hooks + `sys_exit`, cgroup filter) with the same
-  ledger, validated event-for-event against this one and a bpftrace oracle.
+- eBPF backend (`--mode ebpf`: BPF LSM hooks, sched tracepoints, raw
+  `sys_enter`/`sys_exit`) writing the same ledger, checked event-for-event
+  against the ptrace backend and a bpftrace oracle. It exists on the
+  [`m3-ebpf`](https://github.com/YusefSyed/effect-tracer/tree/m3-ebpf) branch,
+  needs root, and is not in a release yet.
 - DSSE / in-toto Statement envelope around the checkpoint.
 - A Landlock confinement mode, so the ledger can also say what was refused.
 - Decoding 32-bit ABI syscalls instead of flagging them.
+
+## Changelog
+
+- **0.1.1** (unreleased): a netlink `SOCK_RAW` socket (what glibc's
+  `getaddrinfo` opens to list interfaces) is recorded as `socket.netlink`
+  instead of a raw-socket `coverage.gap`. Before this, any traced program
+  that resolved a hostname through glibc ended with coverage `partial`.
+  Netlink addresses render as `netlink` rather than `af16`.
+- **0.1.0**: ptrace backend (full and seccomp modes), signed ledger, stdlib
+  verifier, bypass corpus and overhead benchmarks.
 
 ## Licence
 

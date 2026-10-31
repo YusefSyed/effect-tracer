@@ -1396,7 +1396,15 @@ impl Tracer {
             Sys::Socket => {
                 let domain = a[0] as i32;
                 let typ = (a[1] as i32) & 0xf;
-                if domain == libc::AF_PACKET || typ == libc::SOCK_RAW {
+                if domain == libc::AF_NETLINK && typ == libc::SOCK_RAW {
+                    // glibc's getaddrinfo opens socket(AF_NETLINK, SOCK_RAW, NETLINK_ROUTE)
+                    // to list interfaces. It carries kernel messages, not network
+                    // payload, so it is recorded by name rather than as a blind spot.
+                    let proto = a[2] as i32;
+                    detail.insert("domain".into(), json!("netlink"));
+                    detail.insert("protocol".into(), json!(proto));
+                    Some(mk("socket.netlink", netlink_name(proto).to_string(), detail))
+                } else if domain == libc::AF_PACKET || typ == libc::SOCK_RAW {
                     detail.insert("domain".into(), json!(domain));
                     detail.insert("type".into(), json!(typ));
                     detail.insert("protocol".into(), json!(a[2] as i32));
@@ -1706,4 +1714,25 @@ fn open_flag_names(flags: i32) -> Vec<&'static str> {
         v.push("O_DIRECTORY");
     }
     v
+}
+
+/// Name of a netlink protocol family for `socket.netlink` events.
+fn netlink_name(proto: i32) -> &'static str {
+    match proto {
+        0 => "route",
+        3 => "firewall",
+        4 => "sock_diag",
+        7 => "selinux",
+        9 => "audit",
+        10 => "fib_lookup",
+        11 => "connector",
+        12 => "netfilter",
+        15 => "kobject_uevent",
+        16 => "generic",
+        18 => "scsitransport",
+        19 => "ecryptfs",
+        20 => "rdma",
+        21 => "crypto",
+        _ => "other",
+    }
 }

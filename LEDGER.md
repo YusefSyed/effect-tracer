@@ -63,10 +63,11 @@ recomputes the chain still cannot produce the signed head without the key.
 | `socket.bind`, `socket.listen` | `bind`, `listen` |
 | `socket.send` | `sendto`/`sendmsg`/`sendmmsg` with an explicit destination, or `sendfile`/`splice` into a socket |
 | `dns.query` | a parsed DNS question sent over UDP to port 53 or a `--dns-port`; `name` is the QNAME |
+| `socket.netlink` | `socket(AF_NETLINK, SOCK_RAW, proto)`; `name` is the netlink family (`route` for `NETLINK_ROUTE`, which glibc's `getaddrinfo` opens to list interfaces); `detail.protocol` is the number |
 | `process.exec` | `PTRACE_EVENT_EXEC` (argv digested unless `--clear-argv`); failed `execve` calls appear with `outcome: failed` |
 | `process.fork` | `PTRACE_EVENT_FORK/VFORK/CLONE`; threads carry `detail.thread: true` |
 | `process.exit` | `PTRACE_EVENT_EXIT` of a thread-group leader |
-| `coverage.gap` | something the tracer cannot see through: `io_uring_*` (denied), `process_vm_writev`, `ptrace`, `bpf`, mount-namespace calls, module loading, raw sockets, foreign-ABI syscalls, internal read failures |
+| `coverage.gap` | something the tracer cannot see through: `io_uring_*` (denied), `process_vm_writev`, `ptrace`, `bpf`, mount-namespace calls, module loading, raw and packet sockets (netlink is `socket.netlink`, not a gap), foreign-ABI syscalls, internal read failures |
 | `run.start`, `run.end` | the tracer's own bracketing events: identity, options, kernel; coverage, exit status, stats |
 
 Coverage lives in `run.end`, inside the chain: `complete` when no gap was
