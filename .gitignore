@@ -1,0 +1,14 @@
+/target
+/ledger
+/ledger-*
+/bench/work
+/bench/runs
+*.key
+__pycache__/
+.DS_Store
+
+# local working notes, not part of the repository
+/RECEIPT.md
+/STATUS.md
+/POST.md
+*.local.md

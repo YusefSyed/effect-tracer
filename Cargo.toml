@@ -1,0 +1,33 @@
+[package]
+name = "effect-tracer"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+description = "Records every file write, socket connect, DNS query and exec of a Linux process tree into a hash-chained, Ed25519-signed ledger (ptrace)."
+repository = "https://github.com/YusefSyed/effect-tracer"
+readme = "README.md"
+keywords = ["ptrace", "seccomp", "audit", "provenance", "ledger"]
+categories = ["command-line-utilities", "os::linux-apis"]
+rust-version = "1.80"
+
+[dependencies]
+anyhow = "1"
+clap = { version = "4", features = ["derive"] }
+libc = "0.2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+hex = "0.4"
+ed25519-dalek = { version = "2", features = ["rand_core"] }
+rand = "0.8"
+
+[target.'cfg(target_os = "linux")'.dependencies]
+nix = { version = "0.29", features = ["ptrace", "process", "signal", "uio", "fs", "socket", "resource"] }
+
+[dev-dependencies]
+sha2 = "0.10"
+hex = "0.4"
+serde_json = "1"
+
+[profile.release]
+debug = 1
