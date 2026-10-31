@@ -1,7 +1,7 @@
 # effect-tracer
 
-Records what a Linux process tree does to the world: every file write,
-socket connect, DNS query and exec, into a hash-chained, Ed25519-signed
+Records the file writes, socket connects, DNS queries and execs a Linux
+process tree makes through syscalls, into a hash-chained, Ed25519-signed
 ledger that a 300-line standard-library Python script can verify. Built on
 ptrace, so it needs no root, no kernel headers and no eBPF.
 
@@ -42,7 +42,7 @@ had a blind spot (`coverage: partial`) and why.
 
 ## Install
 
-Linux 5.6 or newer (x86_64 or aarch64), Rust 1.80+.
+Linux 5.6 or newer (x86_64 or aarch64; the published runs are aarch64, x86_64 builds are untested), Rust 1.80+.
 
 ```
 cargo install --git https://github.com/YusefSyed/effect-tracer --tag v0.1.0 --locked
@@ -70,7 +70,7 @@ python3 verifier/verify_ledger.py DIR [--pubkey HEX] [--json]
 ```
 
 - `--mode full` (default) stops the tracee at every syscall entry and exit;
-  nothing goes unseen, at the highest cost.
+  every syscall in the effect table is seen, at the highest cost.
 - `--mode seccomp` installs the same filter but with `SECCOMP_RET_TRACE` on
   the effect syscalls only, and the filter tests arguments inside the
   kernel: a read-only `openat`, a private or read-only `mmap`, an ordinary
@@ -243,6 +243,13 @@ Stated in every ledger (`ledger.json.limits`) and in [EXPLAIN.md](EXPLAIN.md) se
   outside it (a redirected stdout) are not.
 - **a program that daemonises** keeps the tracer alive until its last task
   exits.
+- **inbound connections**: `listen` is recorded; `accept` and `accept4` are
+  not in the effect table, so a connection the tree accepts is not an event.
+- **descriptor passing**: a descriptor received over a Unix socket
+  (`SCM_RIGHTS`) is not tied to a path; writes through it are not recorded.
+- **extended attributes**: the `setxattr` family is not in the effect table.
+- **DNS over TCP**: DNS marking needs a UDP or raw IP socket; a resolver
+  that uses TCP is seen as the connect only.
 
 ## CI and the Action example
 
