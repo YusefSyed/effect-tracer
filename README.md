@@ -57,7 +57,7 @@ exact transcript is in [assets/demo-transcript.txt](assets/demo-transcript.txt).
 Linux 5.6 or newer (x86_64 or aarch64; the published benchmark runs are aarch64, and CI builds and runs the ptrace integration test on x86_64 `ubuntu-24.04`), Rust 1.80+.
 
 ```
-cargo install --git https://github.com/YusefSyed/effect-tracer --tag v0.1.1 --locked
+cargo install --git https://github.com/YusefSyed/effect-tracer --tag v0.1.2 --locked
 ```
 
 Or download a prebuilt binary from the [releases page](https://github.com/YusefSyed/effect-tracer/releases)
