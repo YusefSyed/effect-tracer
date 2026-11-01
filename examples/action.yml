@@ -15,9 +15,9 @@ jobs:
 
       - name: Install effect-tracer
         run: |
-          cargo install --git https://github.com/YusefSyed/effect-tracer --tag v0.1.0 --locked
-          curl -fsSLO https://raw.githubusercontent.com/YusefSyed/effect-tracer/v0.1.0/verifier/verify_ledger.py
-          curl -fsSLO https://raw.githubusercontent.com/YusefSyed/effect-tracer/v0.1.0/bench/check_manifest.py
+          cargo install --git https://github.com/YusefSyed/effect-tracer --tag v0.1.1 --locked
+          curl -fsSLO https://raw.githubusercontent.com/YusefSyed/effect-tracer/v0.1.1/verifier/verify_ledger.py
+          curl -fsSLO https://raw.githubusercontent.com/YusefSyed/effect-tracer/v0.1.1/bench/check_manifest.py
 
       - name: Declare what the build may touch
         run: |
