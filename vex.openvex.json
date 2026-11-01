@@ -1,0 +1,10 @@
+{
+  "@context": "https://openvex.dev/ns/v0.2.0",
+  "@id": "https://github.com/YusefSyed/effect-tracer/blob/v0.1.2/vex.openvex.json",
+  "author": "Yusef Syed",
+  "role": "maintainer",
+  "timestamp": "2026-11-01T06:30:00Z",
+  "version": 1,
+  "tooling": "cargo-audit (RustSec advisory database) run by .github/workflows/release.yml; statements written by hand",
+  "statements": []
+}
