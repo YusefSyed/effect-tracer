@@ -5,6 +5,7 @@ name: release
 on:
   push:
     tags: ["v*"]
+    branches: [release-pipeline]  # temporary: dry runs on the branch before merge
   workflow_dispatch:
 
 permissions:
