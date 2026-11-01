@@ -2,7 +2,7 @@
 
 Records the file writes, socket connects, DNS queries and execs a Linux
 process tree makes through syscalls, into a hash-chained, Ed25519-signed
-ledger that a 300-line standard-library Python script can verify. Built on
+ledger that a short standard-library Python script (about 300 lines) can verify. Built on
 ptrace, so it needs no root, no kernel headers and no eBPF.
 
 ```
@@ -53,10 +53,10 @@ exact transcript is in [assets/demo-transcript.txt](assets/demo-transcript.txt).
 
 ## Install
 
-Linux 5.6 or newer (x86_64 or aarch64; the published runs are aarch64, x86_64 builds are untested), Rust 1.80+.
+Linux 5.6 or newer (x86_64 or aarch64; the published benchmark runs are aarch64, and CI builds and runs the ptrace integration test on x86_64 `ubuntu-24.04`), Rust 1.80+.
 
 ```
-cargo install --git https://github.com/YusefSyed/effect-tracer --tag v0.1.0 --locked
+cargo install --git https://github.com/YusefSyed/effect-tracer --tag v0.1.1 --locked
 ```
 
 No root is needed: the tracer only traces its own children. Inside
@@ -289,14 +289,25 @@ and RFC 9162 (leaf hashing). None of their code is used.
 - A Landlock confinement mode, so the ledger can also say what was refused.
 - Decoding 32-bit ABI syscalls instead of flagging them.
 
+## How this was built
+
+Written Oct 30 to 31 2026 by Claude Code sessions that I directed, read and
+reviewed, with the design decisions (ptrace over eBPF or an LSM for v0.1, the
+seccomp effect filter, the io_uring rule, the ledger and verifier format) made
+and defended by me; see [EXPLAIN.md](EXPLAIN.md) for those decisions and
+[BENCH.md](BENCH.md) for how every number was produced. The commit history on
+`main` is squashed into milestones; the full working history is longer and
+messier, as working history is. Bugs and design mistakes are mine: report them
+through [SECURITY.md](SECURITY.md) or an issue.
+
 ## Changelog
 
-- **0.1.1** (unreleased): a netlink `SOCK_RAW` socket (what glibc's
+- **0.1.1** (2026-10-31): a netlink `SOCK_RAW` socket (what glibc's
   `getaddrinfo` opens to list interfaces) is recorded as `socket.netlink`
   instead of a raw-socket `coverage.gap`. Before this, any traced program
   that resolved a hostname through glibc ended with coverage `partial`.
   Netlink addresses render as `netlink` rather than `af16`.
-- **0.1.0**: ptrace backend (full and seccomp modes), signed ledger, stdlib
+- **0.1.0** (2026-10-31): ptrace backend (full and seccomp modes), signed ledger, stdlib
   verifier, bypass corpus and overhead benchmarks.
 
 ## Licence
