@@ -50,6 +50,7 @@ exact transcript is in [assets/demo-transcript.txt](assets/demo-transcript.txt).
 | stdlib Python verifier with its own Ed25519 | `verifier/verify_ledger.py`, tamper suite in `verifier/test_verify_ledger.py` |
 | benchmarks: method, corpus, results | [BENCH.md](BENCH.md), numbers in `bench/*.json` |
 | GitHub Actions example | `examples/action.yml` |
+| release pipeline: signed manifest, SBOM, VEX, how to verify | [RELEASING.md](RELEASING.md), `.github/workflows/release.yml` |
 
 ## Install
 
@@ -58,6 +59,9 @@ Linux 5.6 or newer (x86_64 or aarch64; the published benchmark runs are aarch64,
 ```
 cargo install --git https://github.com/YusefSyed/effect-tracer --tag v0.1.1 --locked
 ```
+
+Or download a prebuilt binary from the [releases page](https://github.com/YusefSyed/effect-tracer/releases)
+and check it against the signed manifest (next section).
 
 No root is needed: the tracer only traces its own children. Inside
 Docker, add `--cap-add SYS_PTRACE`. Without it the tracer still runs under
@@ -70,6 +74,27 @@ mode, the two misses being c08 and c19 recorded as `ip:` where the strict
 check expects `udp:` and `tcp:`. The CI workflow runs on GitHub's
 `ubuntu-24.04` runners without sudo (build, Rust tests under ptrace, the
 verifier tamper suite, the toy-agent clean runs and the bypass corpus).
+
+## Verify a release
+
+Each release from v0.1.2 on ships Linux binaries for x86_64 and aarch64, a
+CycloneDX SBOM per binary, an OpenVEX document and `verify_ledger.py`, all
+listed by SHA-256 in `MANIFEST.txt`, which is signed with the Ed25519
+release key in `release-signing-key.pub` (OpenSSH signature, namespace
+`file`). From a clone of this repository, with the downloaded assets in
+`release/`:
+
+```
+ssh-keygen -Y verify -f allowed_signers -I effect-tracer-release -n file \
+  -s release/MANIFEST.txt.sig < release/MANIFEST.txt
+(cd release && sha256sum --ignore-missing -c MANIFEST.txt)
+```
+
+The first prints `Good "file" signature for effect-tracer-release with
+ED25519 key SHA256:hxiDDsLKUbG2BO4GePgzO/+xwPshP++WE3rw0QNelsc`; the second
+prints `OK` for every file you downloaded. [RELEASING.md](RELEASING.md) has
+the full asset list, what the workflow checks before signing, and how the
+key is kept.
 
 ## Use
 
@@ -302,6 +327,9 @@ through [SECURITY.md](SECURITY.md) or an issue.
 
 ## Changelog
 
+- **0.1.2** (2026-11-01): release pipeline: x86_64 and aarch64 Linux binaries
+  with an OpenSSH-signed `MANIFEST.txt`, a CycloneDX SBOM per binary, an
+  OpenVEX document and a `cargo audit` gate. No tracer or verifier changes.
 - **0.1.1** (2026-10-31): a netlink `SOCK_RAW` socket (what glibc's
   `getaddrinfo` opens to list interfaces) is recorded as `socket.netlink`
   instead of a raw-socket `coverage.gap`. Before this, any traced program

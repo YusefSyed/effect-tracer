@@ -2,6 +2,16 @@
 
 All dates are 2026.
 
+## 0.1.2 (Nov 1)
+
+- Release pipeline: `.github/workflows/release.yml` builds x86_64 and
+  aarch64 Linux binaries on GitHub's runners, runs the full test suite on
+  each, and publishes them with an OpenSSH-signed `MANIFEST.txt` (Ed25519,
+  public key in `release-signing-key.pub` / `allowed_signers`), a CycloneDX
+  1.5 SBOM per binary, an OpenVEX document and the verifier script. `cargo
+  audit --deny warnings` gates the release. Verify steps in `RELEASING.md`.
+- No tracer or verifier changes.
+
 ## 0.1.1 (Oct 31)
 
 - A netlink `SOCK_RAW` socket (what glibc's `getaddrinfo` opens to list

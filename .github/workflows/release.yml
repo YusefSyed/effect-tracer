@@ -1,0 +1,187 @@
+name: release
+# Builds the release binaries, runs the test suite on each architecture,
+# audits the dependency tree, writes a CycloneDX SBOM per binary target and
+# publishes everything under one OpenSSH-signed MANIFEST.txt. See RELEASING.md.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  audit:
+    name: cargo audit
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-audit
+      - name: Audit Cargo.lock against the RustSec database
+        # Any advisory (vulnerability, unsound, unmaintained, yanked) fails
+        # the release. An advisory that cannot be fixed by an upgrade must be
+        # ignored here by id with a matching statement in vex.openvex.json.
+        run: cargo audit --deny warnings
+      - name: Save the audit report
+        if: always()
+        run: cargo audit --json > cargo-audit.json || true
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cargo-audit
+          path: cargo-audit.json
+
+  build:
+    name: build (${{ matrix.target }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: x86_64-unknown-linux-gnu
+            runner: ubuntu-24.04
+          - target: aarch64-unknown-linux-gnu
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
+    env:
+      TARGET: ${{ matrix.target }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-cyclonedx
+      - name: Version
+        run: |
+          VERSION=$(grep -m1 '^version = ' Cargo.toml | cut -d'"' -f2)
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+          if [ "$GITHUB_REF_TYPE" = tag ] && [ "$GITHUB_REF_NAME" != "v$VERSION" ]; then
+            echo "tag $GITHUB_REF_NAME does not match Cargo.toml version $VERSION" >&2
+            exit 1
+          fi
+      - name: Build
+        run: cargo build --release --locked --target "$TARGET"
+      - name: Rust tests (unit + integration, ptrace on the runner)
+        run: cargo test --release --locked --target "$TARGET"
+      - name: Verifier tamper suite (stdlib Python)
+        run: python3 -W error -m unittest discover -s verifier -p 'test_*.py' -v
+      - name: Toy agent clean runs and bypass corpus
+        run: ci/run.sh
+        env:
+          TRACER: target/${{ matrix.target }}/release/effect-tracer
+      - name: CycloneDX SBOM for the binary
+        run: |
+          cargo cyclonedx --format json --spec-version 1.5 --describe binaries --target "$TARGET" -q
+          set -- *.cdx.json
+          [ "$#" -eq 1 ] || { echo "expected exactly one SBOM, found: $*" >&2; exit 1; }
+          mkdir -p dist
+          mv "$1" "dist/effect-tracer-v$VERSION-$TARGET.cdx.json"
+      - name: Package
+        run: |
+          stage=$(mktemp -d)
+          cp "target/$TARGET/release/effect-tracer" LICENSE README.md LEDGER.md "$stage/"
+          epoch=$(git log -1 --format=%ct)
+          tar --sort=name --mtime="@$epoch" --owner=0 --group=0 --numeric-owner \
+              -C "$stage" -cf - effect-tracer LICENSE README.md LEDGER.md \
+            | gzip -n -9 > "dist/effect-tracer-v$VERSION-$TARGET.tar.gz"
+          ls -l dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ matrix.target }}
+          path: dist/
+          if-no-files-found: error
+
+  sign:
+    name: manifest, signature, release
+    needs: [audit, build]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: dist-*
+          merge-multiple: true
+          path: dist
+      - name: Version
+        run: |
+          VERSION=$(grep -m1 '^version = ' Cargo.toml | cut -d'"' -f2)
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+      - name: Add the VEX document, the verifier and the trust anchor
+        run: |
+          cp vex.openvex.json verifier/verify_ledger.py release-signing-key.pub allowed_signers dist/
+          ls -l dist
+      - name: Write MANIFEST.txt (SHA-256 of every asset)
+        run: |
+          cd dist
+          sha256sum -- * > ../MANIFEST.txt
+          mv ../MANIFEST.txt .
+          cat MANIFEST.txt
+      - name: Sign MANIFEST.txt with the release key
+        env:
+          RELEASE_SIGNING_KEY: ${{ secrets.RELEASE_SIGNING_KEY }}
+        run: |
+          set -euo pipefail
+          umask 077
+          [ -n "$RELEASE_SIGNING_KEY" ] || { echo "RELEASE_SIGNING_KEY secret is not set" >&2; exit 1; }
+          key="$RUNNER_TEMP/release-signing-key"
+          printf '%s\n' "$RELEASE_SIGNING_KEY" > "$key"
+          want=$(awk '{print $1, $2}' release-signing-key.pub)
+          have=$(ssh-keygen -y -f "$key" | awk '{print $1, $2}')
+          if [ "$want" != "$have" ]; then
+            echo "the secret key does not match release-signing-key.pub in the repository" >&2
+            rm -f "$key"; exit 1
+          fi
+          ssh-keygen -Y sign -f "$key" -n file dist/MANIFEST.txt
+          rm -f "$key"
+      - name: Verify the way a downloader would
+        run: |
+          ssh-keygen -Y verify -f allowed_signers -I effect-tracer-release -n file \
+            -s dist/MANIFEST.txt.sig < dist/MANIFEST.txt
+          cd dist && sha256sum --strict -c MANIFEST.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-v${{ env.VERSION }}
+          path: dist/
+          if-no-files-found: error
+      - name: Release notes
+        run: |
+          {
+            awk -v v="$VERSION" '$0 ~ "^## " v " " {f=1; next} /^## / {f=0} f' CHANGELOG.md
+            echo
+            echo '## Verify'
+            echo
+            echo 'Every asset is listed with its SHA-256 in `MANIFEST.txt`, and the manifest is signed'
+            echo 'with the Ed25519 key in `release-signing-key.pub` (OpenSSH signature, namespace `file`).'
+            echo 'From a clone of this repository, with the assets downloaded into `release/`:'
+            echo
+            echo '```'
+            echo 'ssh-keygen -Y verify -f allowed_signers -I effect-tracer-release -n file \'
+            echo '  -s release/MANIFEST.txt.sig < release/MANIFEST.txt'
+            echo '(cd release && sha256sum --ignore-missing -c MANIFEST.txt)'
+            echo '```'
+            echo
+            echo 'Details, including the key fingerprint, in [RELEASING.md](RELEASING.md).'
+            echo
+            echo '## Assets'
+            echo
+            echo '```'
+            cat dist/MANIFEST.txt
+            echo '```'
+          } > notes.md
+          cat notes.md
+      - name: Create the GitHub release (draft; tag pushes only)
+        if: github.ref_type == 'tag'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" --draft --verify-tag \
+            --title "$GITHUB_REF_NAME" --notes-file notes.md dist/*
