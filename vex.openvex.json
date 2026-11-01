@@ -5,6 +5,6 @@
   "role": "maintainer",
   "timestamp": "2026-11-01T06:30:00Z",
   "version": 1,
-  "tooling": "cargo-audit (RustSec advisory database) run by .github/workflows/release.yml; statements written by hand",
+  "tooling": "cargo-audit 0.22 against the RustSec advisory database (1395 advisories, 2026-11-01) in .github/workflows/release.yml: no advisory of any kind for the 70 crates in Cargo.lock, so this document has no statements. Statements are written by hand when an advisory appears.",
   "statements": []
 }
