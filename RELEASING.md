@@ -29,6 +29,10 @@ by id in the workflow *and* get a statement in `vex.openvex.json` saying
 why the binary is or is not affected; the two are meant to be read
 together.
 
+At v0.1.2 the audit found no advisory for any of the 70 locked crates, so
+`vex.openvex.json` is a valid OpenVEX document with an empty `statements`
+list; its `tooling` field says so.
+
 The archives are built with fixed ordering, ownership and mtime (the
 commit's timestamp), so rebuilding the same commit on the same toolchain
 gives the same bytes.
