@@ -338,6 +338,10 @@ through [SECURITY.md](SECURITY.md) or an issue.
 - **0.1.0** (2026-10-31): ptrace backend (full and seccomp modes), signed ledger, stdlib
   verifier, bypass corpus and overhead benchmarks.
 
+## Maintainer
+
+[Yusef Syed](https://github.com/YusefSyed). Questions or work opportunities: yusefmsyed@gmail.com.
+
 ## Licence
 
 Apache-2.0. See [LICENSE](LICENSE).
