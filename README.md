@@ -1,5 +1,7 @@
 # effect-tracer
 
+[![crates.io](https://img.shields.io/crates/v/effect-tracer.svg)](https://crates.io/crates/effect-tracer)
+
 Records the file writes, socket connects, DNS queries and execs a Linux
 process tree makes through syscalls, into a hash-chained, Ed25519-signed
 ledger that a short standard-library Python script (about 300 lines) can verify. Built on
@@ -57,8 +59,10 @@ exact transcript is in [assets/demo-transcript.txt](assets/demo-transcript.txt).
 Linux 5.6 or newer (x86_64 or aarch64; the published benchmark runs are aarch64, and CI builds and runs the ptrace integration test on x86_64 `ubuntu-24.04`), Rust 1.80+.
 
 ```
-cargo install --git https://github.com/YusefSyed/effect-tracer --tag v0.1.2 --locked
+cargo install effect-tracer --locked
 ```
+
+The same release from the tag: `cargo install --git https://github.com/YusefSyed/effect-tracer --tag v0.1.2 --locked`.
 
 Or download a prebuilt binary from the [releases page](https://github.com/YusefSyed/effect-tracer/releases)
 and check it against the signed manifest (next section).
