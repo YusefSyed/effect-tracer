@@ -1,7 +1,8 @@
 name: publish-crate
 # Publishes a tagged version to crates.io. Run by hand from the Actions tab.
 # With "publish" left off it only packages and builds the crate (a dry run),
-# which needs no token. The real upload reads the CARGO_REGISTRY_TOKEN secret.
+# which needs no token. The real upload uses crates.io Trusted Publishing: the job
+# trades GitHub's OIDC token for a short-lived crates.io token, so no secret is stored.
 on:
   workflow_dispatch:
     inputs:
@@ -16,6 +17,7 @@ on:
 
 permissions:
   contents: read
+  id-token: write
 
 env:
   CARGO_TERM_COLOR: always
@@ -36,8 +38,12 @@ jobs:
         run: cargo package --locked --list
       - name: Dry run (package and build)
         run: cargo publish --locked --dry-run
+      - name: Get a short-lived crates.io token
+        if: ${{ inputs.publish }}
+        id: auth
+        uses: rust-lang/crates-io-auth-action@v1
       - name: Publish
         if: ${{ inputs.publish }}
         run: cargo publish --locked
         env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+          CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
